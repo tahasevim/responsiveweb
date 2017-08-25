@@ -41,6 +41,7 @@ func getHandler(w http.ResponseWriter, r *http.Request){
 	jsonData["args"] = getData
 	jsonData["headers"] = initHeadMap(r)
 	jsonData["origin"] = r.RemoteAddr
+	jsonData["url"] = r.Host+r.URL.String()
 	w.Write(makeJSONresponse(jsonData))
 }
 
