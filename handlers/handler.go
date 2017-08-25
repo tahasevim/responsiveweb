@@ -7,8 +7,6 @@ import(
 )
 type JsonMap map[string]interface{}
 
-type HandlerMap map[string]func(http.ResponseWriter, *http.Request)
-
 func RegisterHandlers(){
 	http.HandleFunc("/",indexHandler)
 	http.HandleFunc("/ip",ipHandler)
