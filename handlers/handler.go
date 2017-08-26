@@ -2,10 +2,8 @@ package handlers
 
 import(
 	"net/http"
-	"encoding/json"
 	"github.com/tahasevim/go-httpserver/templates"
 )
-type JsonMap map[string]interface{}
 
 func RegisterHandlers(){
 	http.HandleFunc("/",indexHandler)
@@ -43,16 +41,3 @@ func getHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-func makeJSONresponse(v interface {}) []byte {
-	jsonVal, _ :=json.MarshalIndent(v,"","  ")
-	jsonVal = append(jsonVal,byte('\n'))
-	return jsonVal
-}
-
-func initHeadMap(r * http.Request) JsonMap{
-	head := JsonMap{}
-	for k,v := range r.Header{
-		head[k] = v[0]
-	}
-	return head
-}
