@@ -2,7 +2,7 @@ package handlers
 
 import(
 	"net/http"
-	"github.com/tahasevim/go-httpserver/templates"
+	"github.com/tahasevim/responsiveweb/templates"
 )
 
 func RegisterHandlers(){
@@ -10,11 +10,12 @@ func RegisterHandlers(){
 	http.HandleFunc("/ip",ipHandler)
 	http.HandleFunc("/headers",headersHandler)
 	http.HandleFunc("/get",getHandler)
+	http.HandleFunc("/user-agent",useragentHandler)
+	http.HandleFunc("/uuid",uuidHandler)	
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
-	jsonData := JsonMap{}
-	jsonData["origin"] = r.RemoteAddr
+	jsonData := getAllJSONdata(r,"origin")	
 	w.Write(makeJSONresponse(jsonData))
 }
 
@@ -23,21 +24,22 @@ func indexHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func headersHandler(w http.ResponseWriter,r *http.Request){
-	jsonData := JsonMap{}
-	jsonData["headers"] = initHeadMap(r)
+	jsonData := getAllJSONdata(r,"headers")	
 	w.Write(makeJSONresponse(jsonData))
 }
 
 func getHandler(w http.ResponseWriter, r *http.Request){
-	jsonData := JsonMap{}
-	getData := JsonMap{}
-	for k,v := range r.URL.Query(){
-		getData[k] = v[0]
-	}
-	jsonData["args"] = getData
-	jsonData["headers"] = initHeadMap(r)
-	jsonData["origin"] = r.RemoteAddr
-	jsonData["url"] = r.Host+r.URL.String()
+	jsonData := getAllJSONdata(r,"args","headers","origin","url")
+	w.Write(makeJSONresponse(jsonData))
+}
+
+func useragentHandler(w http.ResponseWriter, r *http.Request){
+	jsonData := getAllJSONdata(r,"user-agent")	
+	w.Write(makeJSONresponse(jsonData))
+}
+
+func uuidHandler(w http.ResponseWriter, r *http.Request){
+	jsonData := getAllJSONdata(r,"uuid")	
 	w.Write(makeJSONresponse(jsonData))
 }
 

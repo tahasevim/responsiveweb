@@ -4,7 +4,7 @@ import(
 	"testing"
 	"net/http"
 	"net/http/httptest"
-	"github.com/tahasevim/go-httpserver/templates"
+	"github.com/tahasevim/responsiveweb/templates"
 	"bytes"
 )
 
