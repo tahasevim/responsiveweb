@@ -16,8 +16,10 @@ var(
 		<ul>
 		<li><a href = "/">/</a>  Returns home page.</li>
 		<li><a href = "/ip">/ip</a>  Returns origin ip.</li>
-		<li><a href = "/get">/get</a> Returns GET data.</li>
+		<li><a href = "/uuid">/uuid</a>  Returns UUID.</li>		
+		<li><a href = "/user-agent">/user-agent</a>  Returns user-agent.</li>		
 		<li><a href = "/headers">/headers</a>  Return headers map.</li>
+		<li><a href = "/get">/get</a> Returns GET data.</li>		
 		</ul>
 	</div>
 	`))
