@@ -20,9 +20,7 @@ func TestIpHandler(t *testing.T){
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
-
-	js := JsonMap{}
-	js["origin"] = req.RemoteAddr
+	js := getAllJSONdata(req,"origin")
 	expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
 	if string(result) != string(expectedResult) {
@@ -40,8 +38,7 @@ func TestHeadersHandler(t *testing.T){
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
-	js := JsonMap{}
-	js["headers"] = initHeadMap(req)
+	js := getAllJSONdata(req, "headers")
 	expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
 	if string(result) != string(expectedResult) {
@@ -60,15 +57,7 @@ func TestGetHandler(t *testing.T){
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
-	js := JsonMap{}
-	getData := JsonMap{}
-	for k,v := range req.URL.Query(){
-		getData[k] = v[0]
-	}
-	js["args"] = getData
-	js["headers"] = initHeadMap(req)
-	js["origin"] = req.RemoteAddr
-	js["url"] = req.Host+req.URL.String()
+	js := getAllJSONdata(req,"args","headers","origin","url")
 	expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
 	if string(result) != string(expectedResult) {

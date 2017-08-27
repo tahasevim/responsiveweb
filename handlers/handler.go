@@ -15,31 +15,58 @@ func RegisterHandlers(){
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
 	jsonData := getAllJSONdata(r,"origin")	
 	w.Write(makeJSONresponse(jsonData))
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
 	templates.IndexTemplate.ExecuteTemplate(w, "index", nil)
 }
 
 func headersHandler(w http.ResponseWriter,r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
 	jsonData := getAllJSONdata(r,"headers")	
 	w.Write(makeJSONresponse(jsonData))
 }
 
 func getHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
 	jsonData := getAllJSONdata(r,"args","headers","origin","url")
 	w.Write(makeJSONresponse(jsonData))
 }
 
 func useragentHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
 	jsonData := getAllJSONdata(r,"user-agent")	
 	w.Write(makeJSONresponse(jsonData))
 }
 
 func uuidHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
 	jsonData := getAllJSONdata(r,"uuid")	
 	w.Write(makeJSONresponse(jsonData))
 }
 
+func postHandler(w http.ResponseWriter, r *http.Request){
+
+}
