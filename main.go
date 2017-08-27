@@ -3,7 +3,7 @@ package main
 import(
 	"log"
 	"net/http"
-	"github.com/tahasevim/go-httpserver/handlers"
+	"github.com/tahasevim/responsiveweb/handlers"
 	"flag"
 )
 func main(){
