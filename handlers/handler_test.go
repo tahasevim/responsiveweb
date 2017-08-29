@@ -86,3 +86,22 @@ func TestIndexHandler(t *testing.T){
 		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",expectedResult, result)		
 	}
 }
+
+func TestUseragentHandler(t *testing.T){
+	req,err := http.NewRequest("GET","/user-agent",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resprec := httptest.NewRecorder()
+	handler := http.HandlerFunc(useragentHandler)
+	handler.ServeHTTP(resprec,req)
+	if stat := resprec.Code;stat != http.StatusOK{
+		t.Errorf("Something has gone wrong! Error Code:%v",stat)		
+	}
+	js := getAllJSONdata(req,"user-agent")
+	expectedResult := makeJSONresponse(js)
+	result := resprec.Body.Bytes()
+	if string(result) != string(expectedResult) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",expectedResult, result)
+	}
+}

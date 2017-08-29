@@ -1,10 +1,14 @@
 package handlers
 
 import (
+	"io"
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"os/exec"
+
 )
+
 type jsonMap map[string]interface{}
 
 func makeJSONresponse(v interface {}) []byte {
@@ -29,6 +33,18 @@ func initQueryMap(r * http.Request) jsonMap{
 	return getData
 }
 
+func initFilemap(r *http.Request) jsonMap{
+	fileMap := jsonMap{}
+	r.ParseMultipartForm(256)			
+	for k := range r.MultipartForm.File{
+		var buf bytes.Buffer
+		file,header,_ := r.FormFile(k)
+		io.Copy(&buf,file)
+		fileMap[header.Filename] = buf.String()
+	}
+	return fileMap
+}
+
 func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 	jsonData := jsonMap{}
 	for _ ,key := range keys{
@@ -40,7 +56,7 @@ func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 		case "url":
 			jsonData["url"] = r.Host+r.URL.String()
 		case "json":
-			jsonData["json"] = ""
+			jsonData["json"] = ""//fix
 		case "method":
 			jsonData["method"] = r.Method
 		case "args":
@@ -48,7 +64,14 @@ func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 		case "user-agent":
 			jsonData["user-agent"] = r.Header.Get("user-agent")
 		case "uuid":
-			jsonData["uuid"], _ = exec.Command("uuidgen").Output()
+			jsonData["uuid"], _ = exec.Command("uuidgen").Output()//search for better solution
+		case "form":
+			r.ParseForm()
+			jsonData["form"] = r.PostForm
+		case "files":
+			jsonData["files"] = initFilemap(r)
+		case "data":
+			jsonData["data"] = "" //fix
 		}
 	}
 	return jsonData
