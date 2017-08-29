@@ -35,7 +35,10 @@ func initQueryMap(r * http.Request) jsonMap{
 
 func initFilemap(r *http.Request) jsonMap{
 	fileMap := jsonMap{}
-	r.ParseMultipartForm(256)			
+	r.ParseMultipartForm(256)	
+	if r.MultipartForm  == nil {
+		return fileMap
+	}
 	for k := range r.MultipartForm.File{
 		var buf bytes.Buffer
 		file,header,_ := r.FormFile(k)
@@ -47,7 +50,7 @@ func initFilemap(r *http.Request) jsonMap{
 
 func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 	jsonData := jsonMap{}
-	for _ ,key := range keys{
+	for _, key := range keys{
 		switch key {
 		case "headers":
 			jsonData["headers"] = initHeadMap(r)
@@ -67,7 +70,7 @@ func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 			jsonData["uuid"], _ = exec.Command("uuidgen").Output()//search for better solution
 		case "form":
 			r.ParseForm()
-			jsonData["form"] = r.PostForm
+			jsonData["form"] = r.Form
 		case "files":
 			jsonData["files"] = initFilemap(r)
 		case "data":
