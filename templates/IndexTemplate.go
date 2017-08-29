@@ -20,7 +20,8 @@ var(
 		<li><a href = "/user-agent">/user-agent</a>  Returns user-agent.</li>		
 		<li><a href = "/headers">/headers</a>  Return headers map.</li>
 		<li><a href = "/get">/get</a> Returns GET data.</li>
-		<li><b>/post</b> Returns POST data.</li>		
+		<li><b>/post</b> Returns POST data.</li>
+		<li><b>/delete</b> Returns DELETE data.</li>				
 		
 		</ul>
 	</div>
