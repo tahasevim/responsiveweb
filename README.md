@@ -1,5 +1,5 @@
 
-# responsiveweb
+# responsiveweb [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/tahasevim/responsiveweb)
 Basic HTTP server written in Go.<br>
 Clients can make any request to this HTTP server in order to test their requests.
 ## To-Do List
