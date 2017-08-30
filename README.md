@@ -7,11 +7,11 @@ Clients can make any request to this HTTP server in order to test their requests
 ## Usage and Examples
 #### Usage
 First,web server should be simply run with below command:
-`responsiveweb`
-Or you can run with your custom `port` with using `port`flag:
+`responsiveweb`<br>
+Or you can run with your custom `port` with using `port`flag:<br>
 `responsiveweb port=PORTNUMBER`
 #### Examples
-To test web server,you should use HTTP requests.Simply you can use cURL to test easily.
+To test web server,you should use HTTP requests.Simply you can use cURL to test easily.<br>
 
 ```
 $ curl --data "testK=testV" localhost:8080/post
