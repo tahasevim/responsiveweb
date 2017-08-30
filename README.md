@@ -3,55 +3,56 @@
 Basic HTTP server written in Go.<br>
 Clients can make any request to this HTTP server in order to test their requests.
 ## To-Do List
-- [x] `/` endpoint handler
-- [x] `/ip` endpoint handler
-- [x] `/uuid` endpoint handler
-- [x] `/user-agent` endpoint handler
-- [x] `/header` endpoint handler
-- [x] `/get` endpoint handler
-- [x] `/post` endpoint handler
-- [x] `/delete` endpoint handler
-- [ ] `/put` endpoint handler
-- [ ] `/patch` endpoint handler
-- [ ] `/anything` endpoint handler
-- [ ] `/encoding/utf8` endpoint handler
-- [ ] `/gzip` endpoint handler
-- [ ] `/deflate` endpoint handler
-- [ ] `/brotli` endpoint handler
-- [ ] `/status/:code` endpoint handler
-- [ ] `/response-headers?key=val` endpoint handler
-- [ ] `/redirect/:n` endpoint handler
-- [ ] `/redirect-to?url=foo` endpoint handler
-- [ ] `/redirect-to?url=foo&status_code=307` endpoint handler
-- [ ] `/relative-redirect/:n` endpoint handler
-- [ ] `/absolute-redirect/:n` endpoint handler
-- [ ] `/cookies` endpoint handler
-- [ ] `/cookies/set?name=value` endpoint handler
-- [ ] `/cookies/delete?name` endpoint handler
-- [ ] `/basic-auth/:user/:passwd` endpoint handler
-- [ ] `/hidden-basic-auth/:user/:passwd` endpoint handler 
-- [ ] `/digest-auth/:qop/:user/:passwd/:`endpoint handler
-- [ ] `/digest-auth/:qop/:user/:passwd` endpoint handler
-- [ ] `/stream/:n` endpoint handler
-- [ ] `/delay/:n` endpoint handler 
-- [ ] `/drip?numbytes=n&duration=s&delay=s&code=code` endpoint handler 
-- [ ] `/range/1024?duration=s&chunk_size=code` endpoint handler 
-- [ ] `/html` endpoint handler 
-- [ ] `/robots.txt` endpoint handler 
-- [ ] `/deny` endpoint handler 
-- [ ] `/cache` endpoint handler 
-- [ ] `/etag/:etag` endpoint handler 
-- [ ] `/cache/:n` endpoint handler 
-- [ ] `/bytes/:n` endpoint handler 
-- [ ] `/stream-bytes/:n` endpoint handler 
-- [ ] `/links/:n` endpoint handler 
-- [ ] `/image` endpoint handler 
-- [ ] `/image/png` endpoint handler 
-- [ ] `/image/jpeg` endpoint handler 
-- [ ] `/image/webp` endpoint handler 
-- [ ] `/image/svg` endpoint handler 
-- [ ] `/forms/post` endpoint handler 
-- [ ] `/xml` endpoint handler 
+Given below endpoints's handlers should be implemented<br>
+- [x] `/`
+- [x] `/ip`
+- [x] `/uuid`
+- [x] `/user-agent`
+- [x] `/header` 
+- [x] `/get` 
+- [x] `/post` 
+- [x] `/delete`
+- [ ] `/put` 
+- [ ] `/patch` 
+- [ ] `/anything` 
+- [ ] `/encoding/utf8` 
+- [ ] `/gzip` 
+- [ ] `/deflate` 
+- [ ] `/brotli`
+- [ ] `/status/:code` 
+- [ ] `/response-headers?key=val` 
+- [ ] `/redirect/:n` 
+- [ ] `/redirect-to?url=foo`
+- [ ] `/redirect-to?url=foo&status_code=307` 
+- [ ] `/relative-redirect/:n`
+- [ ] `/absolute-redirect/:n` 
+- [ ] `/cookies` 
+- [ ] `/cookies/set?name=value`
+- [ ] `/cookies/delete?name`
+- [ ] `/basic-auth/:user/:passwd`
+- [ ] `/hidden-basic-auth/:user/:passwd`
+- [ ] `/digest-auth/:qop/:user/:passwd/:`
+- [ ] `/digest-auth/:qop/:user/:passwd
+- [ ] `/stream/:n`
+- [ ] `/delay/:n`
+- [ ] `/drip?numbytes=n&duration=s&delay=s&code=code`
+- [ ] `/range/1024?duration=s&chunk_size=code`
+- [ ] `/html`
+- [ ] `/robots.txt`
+- [ ] `/deny`
+- [ ] `/cache` 
+- [ ] `/etag/:etag` 
+- [ ] `/cache/:n`
+- [ ] `/bytes/:n`
+- [ ] `/stream-bytes/:n` 
+- [ ] `/links/:n` 
+- [ ] `/image`
+- [ ] `/image/png`
+- [ ] `/image/jpeg`
+- [ ] `/image/webp`
+- [ ] `/image/svg`
+- [ ] `/forms/post`
+- [ ] `/xml`
 
 ## Install
 `go get github.com/tahasevim/responsiveweb`
