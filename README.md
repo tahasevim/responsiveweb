@@ -21,7 +21,7 @@ Clients can make any request to this HTTP server in order to test their requests
 - [ ] `/cookies/set?name=value` endpoint handler
 - [ ] `/cookies/delete?name` endpoint handler
 - [ ] `/basic-auth/:user/:passwd` endpoint handler
-- [ ] `/hidden-basic-auth/:user/:passwd` endpoint handler 
+- [ ] `/hidden-basic-auth/:user/:passwd` endpoint handler 
 - [ ] `/digest-auth/:qop/:user/:passwd/:`endpoint handler
 - [ ] `/digest-auth/:qop/:user/:passwd` endpoint handler
 - [ ] `/stream/:n` endpoint handler
