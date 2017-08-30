@@ -35,3 +35,42 @@ $ curl --data "testK=testV" localhost:8080/post
   "url": "localhost:8080/post"
 }
 ```
+```
+$ echo "This sentence is a test for posting file.">>testFile.txt
+$ curl -F "testFile.txt=@./testFile.txt" localhost:8080/post
+{
+  "args": {},
+  "data": "",
+  "files": {
+    "testFile.txt": "This sentence is a test for posting file.\n"
+  },
+  "form": {},
+  "headers": {
+    "Accept": "*/*",
+    "Content-Length": "240",
+    "Content-Type": "multipart/form-data; boundary=------------------------c0cc45e9a422852d",
+    "Expect": "100-continue",
+    "User-Agent": "curl/7.54.0"
+  },
+  "json": "",
+  "origin": "[::1]:55801",
+  "url": "localhost:8080/post"
+}
+```
+```
+$ curl --data "you cant post this data to /get" localhost:8080/get
+Method Not Allowed
+```
+```
+$ curl localhost:8080/get
+{
+  "args": {},
+  "headers": {
+    "Accept": "*/*",
+    "User-Agent": "curl/7.54.0"
+  },
+  "origin": "[::1]:55814",
+  "url": "localhost:8080/get"
+}
+
+```
