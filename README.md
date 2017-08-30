@@ -3,6 +3,14 @@
 Basic HTTP server written in Go.<br>
 Clients can make any request to this HTTP server in order to test their requests.
 ## To-Do List
+- [x] `/` endpoint handler
+- [x] `/ip` endpoint handler
+- [x] `/uuid` endpoint handler
+- [x] `/user-agent` endpoint handler
+- [x] `/header` endpoint handler
+- [x] `/get` endpoint handler
+- [x] `/post` endpoint handler
+- [x] `/delete` endpoint handler
 - [ ] `/put` endpoint handler
 - [ ] `/patch` endpoint handler
 - [ ] `/anything` endpoint handler
