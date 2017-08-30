@@ -23,6 +23,27 @@ Clients can make any request to this HTTP server in order to test their requests
 - [ ] `/basic-auth/:user/:passwd` endpoint handler
 - [ ] `/hidden-basic-auth/:user/:passwd` endpoint handler 
 - [ ] `/digest-auth/:qop/:user/:passwd/:`endpoint handler
+- [ ] `/digest-auth/:qop/:user/:passwd` endpoint handler
+- [ ] `/stream/:n` endpoint handler
+- [ ] `/delay/:n` endpoint handler 
+- [ ] `/drip?numbytes=n&duration=s&delay=s&code=code` endpoint handler 
+- [ ] `/range/1024?duration=s&chunk_size=code` endpoint handler 
+- [ ] `/html` endpoint handler 
+- [ ] `/robots.txt` endpoint handler 
+- [ ] `/deny` endpoint handler 
+- [ ] `/cache` endpoint handler 
+- [ ] `/etag/:etag` endpoint handler 
+- [ ] `/cache/:n` endpoint handler 
+- [ ] `/bytes/:n` endpoint handler 
+- [ ] `/stream-bytes/:n` endpoint handler 
+- [ ] `/links/:n` endpoint handler 
+- [ ] `/image` endpoint handler 
+- [ ] `/image/png` endpoint handler 
+- [ ] `/image/jpeg` endpoint handler 
+- [ ] `/image/webp` endpoint handler 
+- [ ] `/image/svg` endpoint handler 
+- [ ] `/forms/post` endpoint handler 
+- [ ] `/xml` endpoint handler 
 
 ## Install
 `go get github.com/tahasevim/responsiveweb`
