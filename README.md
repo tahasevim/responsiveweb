@@ -1,8 +1,29 @@
+
 # responsiveweb
 Basic HTTP server written in Go.<br>
 Clients can make any request to this HTTP server in order to test their requests.
+## To-Do List
+- [] `/put` endpoint handler
+- [] `/patch` endpoint handler
+- [] `/anything` endpoint handler
+- [] `/encoding/utf8` endpoint handler
+- [] `/gzip` endpoint handler
+- [] `/deflate` endpoint handler
+- [] `/brotli` endpoint handler
+- [] `/status/:code` endpoint handler
+- [] `/response-headers?key=val` endpoint handler
+- [] `/redirect/:n` endpoint handler
+- [] `/redirect-to?url=foo` endpoint handler
+- [] `/redirect-to?url=foo&status_code=307` endpoint handler
+- [] `/relative-redirect/:n` endpoint handler
+- [] `/absolute-redirect/:n` endpoint handler
+- [] `/cookies` endpoint handler
+- [] `/cookies/set?name=value` endpoint handler
+- [] `/cookies/delete?name` endpoint handler
+- [] `/basic-auth/:user/:passwd` endpoint handler
+- [] `/hidden-basic-auth/:user/:passwd` endpoint handler 
+- [] `/digest-auth/:qop/:user/:passwd/:`endpoint handler
 ## Install
-
 `go get github.com/tahasevim/responsiveweb`
 ## Usage and Examples
 #### Usage
