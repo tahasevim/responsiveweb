@@ -35,7 +35,7 @@ Or you can run with your custom `port` with using `port`flag:<br>
 #### Examples
 To test web server,you should use HTTP requests.Simply you can use cURL to test easily.<br>
 
-```
+```bash
 $ curl --data "testK=testV" localhost:8080/post
 {
   "args": {},
@@ -57,7 +57,7 @@ $ curl --data "testK=testV" localhost:8080/post
   "url": "localhost:8080/post"
 }
 ```
-```
+```bash
 $ echo "This sentence is a test for posting file.">>testFile.txt
 $ curl -F "testFile.txt=@./testFile.txt" localhost:8080/post
 {
@@ -79,7 +79,7 @@ $ curl -F "testFile.txt=@./testFile.txt" localhost:8080/post
   "url": "localhost:8080/post"
 }
 ```
-```
+```bash
 $ curl --data "you cant post this data to /get" localhost:8080/get
 Method Not Allowed
 ```
