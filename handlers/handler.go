@@ -14,6 +14,8 @@ func RegisterHandlers(){
 	http.HandleFunc("/uuid",uuidHandler)
 	http.HandleFunc("/post",postHandler)
 	http.HandleFunc("/delete",deleteHandler)
+	http.HandleFunc("/put",putHandler)	
+	
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
@@ -80,6 +82,24 @@ func postHandler(w http.ResponseWriter, r *http.Request){
 
 func deleteHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "DELETE" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url")
+	w.Write(makeJSONresponse(jsonData))	
+}
+
+func putHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "PUT" {
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url")
+	w.Write(makeJSONresponse(jsonData))	
+}
+
+func patchHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "PATCH" {
 		http.Error(w,"Method Not Allowed",405)
 		return
 	}
