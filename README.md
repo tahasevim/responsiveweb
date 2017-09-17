@@ -32,7 +32,6 @@ Given below endpoints's handlers should be implemented<br>
 - [ ] `/basic-auth/:user/:passwd`
 - [ ] `/hidden-basic-auth/:user/:passwd`
 - [ ] `/digest-auth/:qop/:user/:passwd/:`
-- [ ] `/digest-auth/:qop/:user/:passwd
 - [ ] `/stream/:n`
 - [ ] `/delay/:n`
 - [ ] `/drip?numbytes=n&duration=s&delay=s&code=code`
