@@ -12,7 +12,7 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/get` 
 - [x] `/post` 
 - [x] `/delete`
-- [ ] `/put` 
+- [x] `/put` 
 - [ ] `/patch` 
 - [ ] `/anything` 
 - [ ] `/encoding/utf8` 
@@ -71,9 +71,7 @@ $ curl --data "testK=testV" localhost:8080/post
   "data": "",
   "files": {},
   "form": {
-    "testK": [
-      "testV"
-    ]
+    "testK": "testV"
   },
   "headers": {
     "Accept": "*/*",
@@ -124,4 +122,25 @@ $ curl localhost:8080/get
   "url": "localhost:8080/get"
 }
 
+```
+```
+$ curl -X PUT -d testK=testV localhost:8080/put
+{
+  "args": {},
+  "data": "",
+  "files": {},
+  "form": {
+    "testK": "testV"
+  },
+  "headers": {
+    "Accept": "*/*",
+    "Connection": "",
+    "Content-Length": "11",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "curl/7.54.0"
+  },
+  "json": "",
+  "origin": "[::1]:51045",
+  "url": "localhost:8080/put"
+}
 ```
