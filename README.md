@@ -14,7 +14,7 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/delete`
 - [x] `/put` 
 - [ ] `/patch` 
-- [ ] `/anything` 
+- [x] `/anything` 
 - [ ] `/encoding/utf8` 
 - [ ] `/gzip` 
 - [ ] `/deflate` 
