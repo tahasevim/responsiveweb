@@ -9,8 +9,6 @@ import(
 	"net/url"
 	"strings"
 	"flag"
-	"log"
-	"io/ioutil"
 )
 var server string
 var client = &http.Client{}
@@ -18,29 +16,30 @@ func init(){
 	flag.StringVar(&server,"server","localhost:8080","server flag")
 }
 func TestIpHandler(t *testing.T){
-	req, err := http.NewRequest("GET","http://httpbin.org/ip",nil)
+	/*req, err := http.NewRequest("GET","http://httpbin.org/ip",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	resp, _ := client.Do(req)
-	expectedResult ,_:= ioutil.ReadAll(resp.Body)
-	log.Println(string(expectedResult))
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)*/
+	req, err :=http.NewRequest("GET","/ip",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 	resprec := httptest.NewRecorder()
 	handler := http.HandlerFunc(ipHandler)
 	handler.ServeHTTP(resprec,req)
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
-	//js := getAllJSONdata(req,"origin")
-	//expectedResult := makeJSONresponse(js)
+	js := getAllJSONdata(req,"origin")
+	expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
-	log.Print(string(result))
 	if string(result) != string(expectedResult) {
 		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",expectedResult, result)
 	}
 }
 func TestHeadersHandler(t *testing.T){
-	log.Println(server)
 	req, err := http.NewRequest("GET",server+"/headers",nil)
 	if err != nil {
 		t.Fatal(err)
@@ -59,36 +58,27 @@ func TestHeadersHandler(t *testing.T){
 	}
 }
 func TestGetHandler(t *testing.T){
-	testReq, err := http.NewRequest("GET","http://httpbin.org/get",nil)
+	/*testReq, err := http.NewRequest("GET","http://httpbin.org/get",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	testReq.URL.Query().Add("testKey","testValue")	
-	testReq.URL.Query().Add("testKey","testValue")	
-	resp, err:= client.Do(testReq)
+	testReq.URL.Query().Add("testKey","testValue")
+	resp, err:= client.Do(testReq)*/
+	req,err := http.NewRequest("GET","/get",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-	expectedResult ,err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		t.Fatal(err)
-	}
-	log.Println(string(expectedResult))
-	ourReq, err := http.NewRequest("GET","/get",nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	ourReq.URL.Query().Add("testKey","testValue")	
-	ourReq.URL.Query().Add("testKey","testValue")	
-	
+	req.URL.Query().Add("testKey","testValue")	
 	resprec := httptest.NewRecorder()
 	handler := http.HandlerFunc(getHandler)
-	handler.ServeHTTP(resprec,ourReq)
+	handler.ServeHTTP(resprec,req)
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
+	js := getAllJSONdata(req,"args","headers","origin","url")
+	expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
-	log.Println(string(result))
 	if string(result) != string(expectedResult) {
 		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",expectedResult, result)
 	}
