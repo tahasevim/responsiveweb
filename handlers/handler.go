@@ -17,6 +17,7 @@ func RegisterHandlers(){
 	http.HandleFunc("/put",putHandler)	
 	http.HandleFunc("/anything",anythingHandler)
 	http.HandleFunc("/anything/",anythingHandler)
+	http.HandleFunc("/encoding/utf8",utf8Handler)
 	
 }
 
@@ -112,4 +113,12 @@ func patchHandler(w http.ResponseWriter, r *http.Request){
 func anythingHandler(w http.ResponseWriter, r *http.Request){
 	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url")
 	w.Write(makeJSONresponse(jsonData))
+}
+
+func utf8Handler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	templates.Utf8Template.ExecuteTemplate(w,"utf8",nil)
 }
