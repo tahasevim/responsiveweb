@@ -15,6 +15,8 @@ func RegisterHandlers(){
 	http.HandleFunc("/post",postHandler)
 	http.HandleFunc("/delete",deleteHandler)
 	http.HandleFunc("/put",putHandler)	
+	http.HandleFunc("/anything",anythingHandler)
+	http.HandleFunc("/anything/",anythingHandler)
 	
 }
 
@@ -105,4 +107,9 @@ func patchHandler(w http.ResponseWriter, r *http.Request){
 	}
 	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url")
 	w.Write(makeJSONresponse(jsonData))	
+}
+
+func anythingHandler(w http.ResponseWriter, r *http.Request){
+	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url")
+	w.Write(makeJSONresponse(jsonData))
 }

@@ -9,31 +9,39 @@ import(
 	"net/url"
 	"strings"
 	"flag"
+	"log"
+	"io/ioutil"
 )
-var server = flag.String("server","localhost:8080","server name")
+var server string
+var client = &http.Client{}
+func init(){
+	flag.StringVar(&server,"server","localhost:8080","server flag")
+}
 func TestIpHandler(t *testing.T){
-	flag.Parse()
-	req, err := http.NewRequest("GET",*server+"/ip",nil)
+	req, err := http.NewRequest("GET","http://httpbin.org/ip",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-
+	resp, _ := client.Do(req)
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)
+	log.Println(string(expectedResult))
 	resprec := httptest.NewRecorder()
 	handler := http.HandlerFunc(ipHandler)
 	handler.ServeHTTP(resprec,req)
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
-	js := getAllJSONdata(req,"origin")
-	expectedResult := makeJSONresponse(js)
+	//js := getAllJSONdata(req,"origin")
+	//expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
+	log.Print(string(result))
 	if string(result) != string(expectedResult) {
 		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",expectedResult, result)
 	}
 }
 func TestHeadersHandler(t *testing.T){
-	flag.Parse()
-	req, err := http.NewRequest("GET",*server+"/headers",nil)
+	log.Println(server)
+	req, err := http.NewRequest("GET",server+"/headers",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -51,29 +59,43 @@ func TestHeadersHandler(t *testing.T){
 	}
 }
 func TestGetHandler(t *testing.T){
-	flag.Parse()
-	req, err := http.NewRequest("GET",*server+"/get",nil)
+	testReq, err := http.NewRequest("GET","http://httpbin.org/get",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
+	testReq.URL.Query().Add("testKey","testValue")	
+	testReq.URL.Query().Add("testKey","testValue")	
+	resp, err:= client.Do(testReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	expectedResult ,err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	log.Println(string(expectedResult))
+	ourReq, err := http.NewRequest("GET","/get",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ourReq.URL.Query().Add("testKey","testValue")	
+	ourReq.URL.Query().Add("testKey","testValue")	
+	
 	resprec := httptest.NewRecorder()
 	handler := http.HandlerFunc(getHandler)
-	req.URL.Query().Add("testKey","testValue")
-	handler.ServeHTTP(resprec,req)
+	handler.ServeHTTP(resprec,ourReq)
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
 	}
-	js := getAllJSONdata(req,"args","headers","origin","url")
-	expectedResult := makeJSONresponse(js)
 	result := resprec.Body.Bytes()
+	log.Println(string(result))
 	if string(result) != string(expectedResult) {
 		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",expectedResult, result)
 	}
 }
 
 func TestIndexHandler(t *testing.T){	
-	flag.Parse()
-	req, err := http.NewRequest("GET",*server+"/",nil)
+	req, err := http.NewRequest("GET",server+"/",nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -95,8 +117,7 @@ func TestIndexHandler(t *testing.T){
 }
 
 func TestUseragentHandler(t *testing.T){
-	flag.Parse()
-	req, err := http.NewRequest("GET",*server+"/user-agent",nil)	
+	req, err := http.NewRequest("GET",server+"/user-agent",nil)	
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -118,8 +139,7 @@ func TestPostHandler(t *testing.T){
 	form := url.Values{}
 	form.Add("test1K","test1V")
 	form.Add("test2K","test2v")
-	flag.Parse()
-	req, err := http.NewRequest("POST",*server+"/post",strings.NewReader(form.Encode()))
+	req, err := http.NewRequest("POST",server+"/post",strings.NewReader(form.Encode()))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -141,8 +161,7 @@ func TestDeleteHandler(t *testing.T){
 	form := url.Values{}
 	form.Add("test1K","test1V")
 	form.Add("test2K","test2v")
-	flag.Parse()
-	req, err := http.NewRequest("DELETE",*server+"/delete",strings.NewReader(form.Encode()))
+	req, err := http.NewRequest("DELETE",server+"/delete",strings.NewReader(form.Encode()))
 	if err != nil {
 		t.Fatal(err)
 	}

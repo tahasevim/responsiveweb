@@ -47,7 +47,13 @@ func initFilemap(r *http.Request) jsonMap{
 	}
 	return fileMap
 }
-
+func initFormMap(r *http.Request) jsonMap {
+	formMap := jsonMap{}
+	for k,v := range r.Form{
+		formMap[k] = v[0]
+	}
+	return formMap
+}
 func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 	jsonData := jsonMap{}
 	for _, key := range keys{
@@ -70,7 +76,7 @@ func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 			jsonData["uuid"], _ = exec.Command("uuidgen").Output()//search for better solution
 		case "form":
 			r.ParseForm()
-			jsonData["form"] = r.Form
+			jsonData["form"] = initFormMap(r)
 		case "files":
 			jsonData["files"] = initFilemap(r)
 		case "data":
