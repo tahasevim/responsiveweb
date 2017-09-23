@@ -21,7 +21,11 @@ var(
 		<li><a href = "/headers">/headers</a>  Return headers map.</li>
 		<li><a href = "/get">/get</a> Returns GET data.</li>
 		<li><b>/post</b> Returns POST data.</li>
+		<li><b>/put</b> Returns PUT data.</li>		
 		<li><b>/delete</b> Returns DELETE data.</li>				
+		<li><a href = "/anything">/anything</a>  Returns request data, including method used.</li>
+		<li><b>/anything/:anything</b>  Returns request data, including the URL.</li>
+		<li><a href = "/encoding/utf8">/encoding/utf8</a>  Returns page containing UTF-8 data.</li>				
 		
 		</ul>
 	</div>
