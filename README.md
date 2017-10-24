@@ -16,10 +16,10 @@ Given below endpoints's handlers should be implemented<br>
 - [ ] `/patch` 
 - [x] `/anything` 
 - [x] `/encoding/utf8` 
-- [ ] `/gzip` 
-- [ ] `/deflate` 
-- [ ] `/brotli`
-- [ ] `/status/:code` 
+- [x] `/gzip` 
+- [x] `/deflate` 
+- [x] `/brotli`
+- [x] `/status/:code` 
 - [ ] `/response-headers?key=val` 
 - [ ] `/redirect/:n` 
 - [ ] `/redirect-to?url=foo`
