@@ -25,7 +25,12 @@ var(
 		<li><b>/delete</b> Returns DELETE data.</li>				
 		<li><a href = "/anything">/anything</a>  Returns request data, including method used.</li>
 		<li><b>/anything/:anything</b>  Returns request data, including the URL.</li>
-		<li><a href = "/encoding/utf8">/encoding/utf8</a>  Returns page containing UTF-8 data.</li>				
+		<li><a href = "/encoding/utf8">/encoding/utf8</a>  Returns page containing UTF-8 data.</li>	
+		<li><a href = "/gzip">/gzip</a>Returns gzip-encoded data.</li>
+		<li><a href = "/deflate">/deflate</a>Returns deflate-encoded data.</li>
+		<li><a href = "/brolti">/brotli</a> Returns brotli-encoded data.</li>
+		<li><a href = "/status/">/status:code</a>Returns given HTTP Status Code.</li>
+		
 		
 		</ul>
 	</div>
