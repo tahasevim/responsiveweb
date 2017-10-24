@@ -3,8 +3,10 @@ package handlers
 import(
 	"net/http"
 	"github.com/tahasevim/responsiveweb/templates"
+	//"log"
+	"strconv"
 )
-
+//Registers handlers to the default server mux.
 func RegisterHandlers(){
 	http.HandleFunc("/",indexHandler)
 	http.HandleFunc("/ip",ipHandler)
@@ -18,7 +20,10 @@ func RegisterHandlers(){
 	http.HandleFunc("/anything",anythingHandler)
 	http.HandleFunc("/anything/",anythingHandler)
 	http.HandleFunc("/encoding/utf8",utf8Handler)
-	
+	http.HandleFunc("/gzip",gzipHandler)
+	http.HandleFunc("/deflate",deflateHandler)	
+	http.HandleFunc("/brotli",brotliHandler)
+	http.HandleFunc("/status/",statusHandler)
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
@@ -121,4 +126,39 @@ func utf8Handler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	templates.Utf8Template.ExecuteTemplate(w,"utf8",nil)
+}
+
+func gzipHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	jsonData := getAllJSONdata(r,"gzipped","headers","method","origin")
+	w.Write(makeJSONresponse(jsonData))
+	
+}
+
+func brotliHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	jsonData := getAllJSONdata(r,"brotli","headers","method","origin")
+	w.Write(makeJSONresponse(jsonData))	
+}
+func deflateHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	jsonData := getAllJSONdata(r,"deflated","headers","method","origin")
+	w.Write(makeJSONresponse(jsonData))	
+}
+
+func statusHandler(w http.ResponseWriter, r *http.Request){
+	stat,err := strconv.ParseInt(r.URL.Path[len("/status/"):],10,64)
+	if err != nil {
+		return
+	}
+	w.WriteHeader(int(stat))
 }
