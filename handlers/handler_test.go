@@ -1,5 +1,5 @@
 package handlers
-
+//ALL TESTS WILL BE REVISED.
 import(
 	"testing"
 	"net/http"

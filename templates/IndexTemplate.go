@@ -30,7 +30,10 @@ var(
 		<li><a href = "/deflate">/deflate</a>Returns deflate-encoded data.</li>
 		<li><a href = "/brolti">/brotli</a> Returns brotli-encoded data.</li>
 		<li><a href = "/status/">/status:code</a>Returns given HTTP Status Code.</li>
-		
+		<li><a href = "/response-headers">/response-headers?key=value</a>Returns given response headers.</li>
+		<li><a href = "/redirect/">/redirect/:n </a>302 Redirects n times.</li>
+		<li><a href = "/redirect-to">/redirect-to?url=foo</a>302 Redirects to the foo URL.</li>
+		<li><a href = "/redirect-to">/redirect-to?url=foo&status_code=307</a>307 Redirects to the foo URL.</li>
 		
 		</ul>
 	</div>

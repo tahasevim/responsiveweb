@@ -24,6 +24,11 @@ func RegisterHandlers(){
 	http.HandleFunc("/deflate",deflateHandler)	
 	http.HandleFunc("/brotli",brotliHandler)
 	http.HandleFunc("/status/",statusHandler)
+	http.HandleFunc("/response-headers",responseHeaderHandler)
+	http.HandleFunc("/redirect/",redirectMultiHandler)
+	http.HandleFunc("/redirect-to",redirectToHandler)
+	//http.HandleFunc("/relative-redirect",relativeRedHandler)
+	//http.HandleFunc("/absolute-redirect",absoluteRedHandler)
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
@@ -146,6 +151,7 @@ func brotliHandler(w http.ResponseWriter, r *http.Request){
 	jsonData := getAllJSONdata(r,"brotli","headers","method","origin")
 	w.Write(makeJSONresponse(jsonData))	
 }
+
 func deflateHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
@@ -161,4 +167,54 @@ func statusHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	w.WriteHeader(int(stat))
+}
+
+func responseHeaderHandler(w http.ResponseWriter, r *http.Request){
+	if !(r.Method == "GET" || r.Method == "POST"){
+		http.Error(w,"Method Not Allowed",405)
+		return
+	}
+	jsonData := jsonMap{}
+	for key,value := range r.URL.Query(){
+		if len(value) == 1{
+			jsonData[key] = value[0]
+		}else {
+			jsonData[key] = value
+		}
+	}
+	w.Write(makeJSONresponse(jsonData))	
+}
+
+func redirectMultiHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	ntime, err := strconv.ParseInt(r.URL.Path[len("/redirect/"):],10,64)
+	if int(ntime)<=0{
+		w.Write([]byte("Invalid n"))
+		return
+	}
+	if err != nil {
+		return
+	}
+	for i:=0;i<int(ntime);i++{
+		http.Redirect(w,r,"/get",302)	
+	}
+}
+
+func redirectToHandler(w http.ResponseWriter, r *http.Request){
+	var stat int
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	url := r.URL.Query().Get("url")
+	statstr, _:= strconv.ParseInt(r.URL.Query().Get("status_code"),10,64)
+	if statstr == 0{
+		stat = 302
+	}else{
+		stat = int(statstr)
+	}
+	http.Redirect(w,r,url,stat)
 }
