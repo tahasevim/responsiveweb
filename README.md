@@ -20,10 +20,10 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/deflate` 
 - [x] `/brotli`
 - [x] `/status/:code` 
-- [ ] `/response-headers?key=val` 
-- [ ] `/redirect/:n` 
-- [ ] `/redirect-to?url=foo`
-- [ ] `/redirect-to?url=foo&status_code=307` 
+- [x] `/response-headers?key=val` 
+- [x] `/redirect/:n` 
+- [x] `/redirect-to?url=foo`
+- [x] `/redirect-to?url=foo&status_code=307` 
 - [ ] `/relative-redirect/:n`
 - [ ] `/absolute-redirect/:n` 
 - [ ] `/cookies` 
