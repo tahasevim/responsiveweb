@@ -77,6 +77,33 @@ func initFormMap(r *http.Request) jsonMap {
 	}
 	return formMap
 }
+func setCooki(w http.ResponseWriter, r * http.Request) jsonMap{
+	cookieMap :=jsonMap{}
+	jsonData := jsonMap{}
+	for k,v := range r.URL.Query(){
+		cook := &http.Cookie{Name:k,Value:v[0]}
+		http.SetCookie(w,cook)
+		cookieMap[k] = v[0]
+	}
+	for _,cookie := range r.Cookies(){
+		cookieMap[cookie.Name] = cookie.Value
+	}
+	cookieMap["k1"] = "v1"
+	cookieMap["k2"] = "v2"
+	jsonData["Cookies"] = cookieMap
+	return jsonData
+}
+func delCooki(w http.ResponseWriter, r * http.Request){
+	for k := range r.URL.Query(){
+		for _,cookie := range r.Cookies(){
+			if cookie.Name == k{
+				cook := &http.Cookie{Name:k,MaxAge:-1,}
+				http.SetCookie(w,cook)
+			}
+		}
+	}
+
+}
 func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 	jsonData := jsonMap{}
 	for _, key := range keys{

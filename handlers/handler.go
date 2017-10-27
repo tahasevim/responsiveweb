@@ -29,6 +29,9 @@ func RegisterHandlers(){
 	http.HandleFunc("/redirect-to",redirectToHandler)
 	//http.HandleFunc("/relative-redirect",relativeRedHandler)
 	//http.HandleFunc("/absolute-redirect",absoluteRedHandler)
+	http.HandleFunc("/cookies",cookieHandler)
+	http.HandleFunc("/cookies/",cookieSetDelhandler)
+	
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
@@ -196,6 +199,7 @@ func redirectMultiHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	if err != nil {
+		w.Write([]byte("Invalid n"))
 		return
 	}
 	for i:=0;i<int(ntime);i++{
@@ -210,11 +214,44 @@ func redirectToHandler(w http.ResponseWriter, r *http.Request){
 		return	
 	}
 	url := r.URL.Query().Get("url")
-	statstr, _:= strconv.ParseInt(r.URL.Query().Get("status_code"),10,64)
+	statstr, err := strconv.ParseInt(r.URL.Query().Get("status_code"),10,64)
+	if err != nil {
+		w.Write([]byte("Invalid status code"))
+		return
+	}
 	if statstr == 0{
 		stat = 302
 	}else{
 		stat = int(statstr)
 	}
 	http.Redirect(w,r,url,stat)
+}
+func cookieHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	jsonData := jsonMap{}
+	cookieMap := jsonMap{}
+	for _,cookie := range r.Cookies(){
+		cookieMap[cookie.Name] = cookie.Value
+	}
+	jsonData["Cookies"] = cookieMap
+	w.Write(makeJSONresponse(jsonData))
+}
+func cookieSetDelhandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	if r.URL.Path == "/cookies/set"{
+		jsonData := setCooki(w,r)
+		w.Write(makeJSONresponse(jsonData))
+		return	
+	}
+	if r.URL.Path == "/cookies/delete"{
+		delCooki(w,r)
+		http.Redirect(w,r,"/cookies",302)
+		return
+	}
 }
