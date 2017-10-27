@@ -26,9 +26,9 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/redirect-to?url=foo&status_code=307` 
 - [ ] `/relative-redirect/:n`
 - [ ] `/absolute-redirect/:n` 
-- [ ] `/cookies` 
-- [ ] `/cookies/set?name=value`
-- [ ] `/cookies/delete?name`
+- [x] `/cookies` 
+- [x] `/cookies/set?name=value`
+- [x] `/cookies/delete?name`
 - [ ] `/basic-auth/:user/:passwd`
 - [ ] `/hidden-basic-auth/:user/:passwd`
 - [ ] `/digest-auth/:qop/:user/:passwd/:`
