@@ -29,11 +29,11 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/cookies` 
 - [x] `/cookies/set?name=value`
 - [x] `/cookies/delete?name`
-- [ ] `/basic-auth/:user/:passwd`
-- [ ] `/hidden-basic-auth/:user/:passwd`
+- [x] `/basic-auth/:user/:passwd`
+- [x] `/hidden-basic-auth/:user/:passwd`
 - [ ] `/digest-auth/:qop/:user/:passwd/:`
-- [ ] `/stream/:n`
-- [ ] `/delay/:n`
+- [x] `/stream/:n`
+- [x] `/delay/:n`
 - [ ] `/drip?numbytes=n&duration=s&delay=s&code=code`
 - [ ] `/range/1024?duration=s&chunk_size=code`
 - [ ] `/html`
