@@ -3,8 +3,11 @@ package handlers
 import(
 	"net/http"
 	"github.com/tahasevim/responsiveweb/templates"
-	//"log"
+	"log"
 	"strconv"
+	"strings"
+	"encoding/json"
+	"time"
 )
 //Registers handlers to the default server mux.
 func RegisterHandlers(){
@@ -31,7 +34,11 @@ func RegisterHandlers(){
 	//http.HandleFunc("/absolute-redirect",absoluteRedHandler)
 	http.HandleFunc("/cookies",cookieHandler)
 	http.HandleFunc("/cookies/",cookieSetDelhandler)
-	
+	http.HandleFunc("/basic-auth/",basicAuthHandler)	
+	http.HandleFunc("/hidden-basic-auth",hiddenBasicAuthHandler)
+	http.HandleFunc("/stream/",streamHandler)
+	http.HandleFunc("/delay/",delayHandler)
+
 }
 
 func ipHandler(w http.ResponseWriter, r *http.Request){
@@ -165,11 +172,12 @@ func deflateHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func statusHandler(w http.ResponseWriter, r *http.Request){
-	stat,err := strconv.ParseInt(r.URL.Path[len("/status/"):],10,64)
-	if err != nil {
-		return
+	stat,_ := strconv.ParseInt(r.URL.Path[len("/status/"):],10,64)
+	if int(stat)==0{
+		w.WriteHeader(418)
+		http.Redirect(w,r,"/status/418",418)
 	}
-	w.WriteHeader(int(stat))
+	http.Redirect(w,r,"/status/"+string(stat),int(stat))
 }
 
 func responseHeaderHandler(w http.ResponseWriter, r *http.Request){
@@ -194,9 +202,13 @@ func redirectMultiHandler(w http.ResponseWriter, r *http.Request){
 		return	
 	}
 	ntime, err := strconv.ParseInt(r.URL.Path[len("/redirect/"):],10,64)
-	if int(ntime)<=0{
+	log.Println(ntime)
+	if int(ntime)<0{
 		w.Write([]byte("Invalid n"))
 		return
+	}
+	if int(ntime)== 0{
+		http.Redirect(w,r,"/get",302)
 	}
 	if err != nil {
 		w.Write([]byte("Invalid n"))
@@ -214,11 +226,11 @@ func redirectToHandler(w http.ResponseWriter, r *http.Request){
 		return	
 	}
 	url := r.URL.Query().Get("url")
-	statstr, err := strconv.ParseInt(r.URL.Query().Get("status_code"),10,64)
-	if err != nil {
+	statstr, _ := strconv.ParseInt(r.URL.Query().Get("status_code"),10,64)
+	/*if err != nil {
 		w.Write([]byte("Invalid status code"))
 		return
-	}
+	}*/
 	if statstr == 0{
 		stat = 302
 	}else{
@@ -254,4 +266,99 @@ func cookieSetDelhandler(w http.ResponseWriter, r *http.Request){
 		http.Redirect(w,r,"/cookies",302)
 		return
 	}
+	http.Redirect(w,r,"/cookies",302)
+}
+func basicAuthHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	jsonData := jsonMap{}
+	jsonData = getAllJSONdata(r,"authenticated","user")
+	if len(r.URL.String())==12{
+		w.Write(makeJSONresponse(jsonData))
+		return
+	}
+	w.Header().Set("WWW-Authenticate", `Basic realm="localhost:8080"`)	
+	if strings.Count(r.URL.String()[len("/basic-auth/"):],"/") != 1 {
+		http.Error(w,"Not Found",http.StatusNotFound)
+		return
+	}
+	userAndpasswd := r.URL.String()[len("/basic-auth/"):]
+	user := userAndpasswd[:strings.Index(userAndpasswd,"/")]
+	pass := userAndpasswd[strings.Index(userAndpasswd,"/")+1:]
+	if !check(user,pass,r){
+		http.Error(w,"Unauthorised Attempt",http.StatusUnauthorized)
+		return
+	}
+
+	w.Write(makeJSONresponse(jsonData))
+	log.Println("User logged in:",user)
+	
+}
+func hiddenBasicAuthHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	w.Header().Set("WWW-Authenticate", `Basic realm="localhost:8080"`)	
+	if len(r.URL.String())==12 || strings.Count(r.URL.String()[len("/basic-auth/"):],"/") != 1 {
+		http.Error(w,"Not Found",http.StatusNotFound)
+		return
+	}
+	userAndpasswd := r.URL.String()[len("/basic-auth/"):]
+	user := userAndpasswd[:strings.Index(userAndpasswd,"/")]
+	pass := userAndpasswd[strings.Index(userAndpasswd,"/")+1:]
+	if !check(user,pass,r){
+		http.Error(w,"Unauthorised Attempt",http.StatusUnauthorized)
+		return
+	} 
+	http.Error(w,"Not Found",http.StatusNotFound)		
+}
+
+func streamHandler(w http.ResponseWriter, r *http.Request){
+	var n int
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	nparam, err := strconv.ParseInt(r.URL.String()[len("/stream/"):],10,64)
+	switch{
+	case err != nil:
+		n = 20
+	case int(nparam)>100:
+		n = 100
+	case int(nparam)<=100:
+		n = int(nparam)
+	}
+	jsonData := jsonMap{}
+	jsonData = getAllJSONdata(r,"url","args","headers","origin")
+	for i:=0;i<n;i++{
+		jsonResp,_:= json.Marshal(jsonData)
+		w.Write(jsonResp)
+		w.Write([]byte("\n"))
+	}
+	
+}
+
+func delayHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	var n int
+	nparam, err := strconv.ParseInt(r.URL.String()[len("/delay/"):],10,64)
+	switch{
+	case err != nil:
+		n = 3
+	case int(nparam)>10:
+		n = 10
+	case int(nparam)<=10:
+		n = int(nparam)
+	}
+	time.Sleep(time.Second * time.Duration(n))
+	jsonData := jsonMap{}
+	jsonData = getAllJSONdata(r,"args","data","files","forms","headers","origin","url")
+	w.Write(makeJSONresponse(jsonData))
+	
 }

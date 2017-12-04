@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os/exec"
+	"strings"
 
 )
 
@@ -137,7 +138,21 @@ func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 			jsonData["deflated"] = true
 		case "gzipped":
 			jsonData["gzipped"] = true
+		case "authenticated":
+			jsonData["authenticated"] = true
+		case "user":
+			if len(r.URL.String())==12{
+				jsonData["user"] = "user"
+			} else{
+				stripUser := r.URL.String()[len("/basic-auth/"):]
+				jsonData["user"] = stripUser[:strings.Index(stripUser,"/")]
+			}
+		
 		}
 	}
 	return jsonData
+}
+func check(username,password string,r *http.Request) bool{
+	user,passwd,ok := r.BasicAuth()
+	return user == username && password == passwd && ok
 }
