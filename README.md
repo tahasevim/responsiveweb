@@ -36,22 +36,22 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/delay/:n`
 - [ ] `/drip?numbytes=n&duration=s&delay=s&code=code`
 - [ ] `/range/1024?duration=s&chunk_size=code`
-- [ ] `/html`
-- [ ] `/robots.txt`
-- [ ] `/deny`
+- [x] `/html`
+- [x] `/robots.txt`
+- [x] `/deny`
 - [ ] `/cache` 
 - [ ] `/etag/:etag` 
 - [ ] `/cache/:n`
 - [ ] `/bytes/:n`
 - [ ] `/stream-bytes/:n` 
 - [ ] `/links/:n` 
-- [ ] `/image`
-- [ ] `/image/png`
-- [ ] `/image/jpeg`
-- [ ] `/image/webp`
-- [ ] `/image/svg`
-- [ ] `/forms/post`
-- [ ] `/xml`
+- [x] `/image`
+- [x] `/image/png`
+- [x] `/image/jpeg`
+- [x] `/image/webp`
+- [x] `/image/svg`
+- [x] `/forms/post`
+- [x] `/xml`
 
 ## Install
 `go get github.com/tahasevim/responsiveweb`
