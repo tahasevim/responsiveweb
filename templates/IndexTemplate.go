@@ -41,8 +41,18 @@ var(
 		<li><a href = "/hidden-basic-auth/">/hidden-basic-auth/:user/:passwd</a> 404'd BasicAuth.</li>
 		<li><a href = "/stream/">/stream/:n</a> Streams min(n, 100) lines.</li>
 		<li><a href = "/delay/">/delay/:n</a> Delays responding for min(n, 10) seconds.</li>
-		
-		
+		<li><a href = "/html">/html</a> Renders an HTML Page.</li>
+		<li><a href = "/robots.txt">/robots.txt</a> Returns some robots.txt rules.</li>
+		<li><a href = "/image">/image</a> Returns default image.</li>
+		<li><a href = "/image/png">/image/png</a> Returns a PNG image.</li>
+		<li><a href = "/image/jpeg">/image/jpeg</a> Returns a JPEG image.</li>
+		<li><a href = "/image/webp">/image/webp</a> Returns a WEBP image.</li>
+		<li><a href = "/image/svg">/image/svg</a> Returns a SVG image.</li>
+		<li><a href = "/forms/post">/forms/post</a> HTML form that submits to /post.</li>
+		<li><a href = "/xml">/xml</a> Returns some XML.</li>
+
+
+
 		</ul>
 	</div>
 	`))

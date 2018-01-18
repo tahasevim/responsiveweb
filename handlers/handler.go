@@ -38,6 +38,16 @@ func RegisterHandlers(){
 	http.HandleFunc("/hidden-basic-auth",hiddenBasicAuthHandler)
 	http.HandleFunc("/stream/",streamHandler)
 	http.HandleFunc("/delay/",delayHandler)
+	http.HandleFunc("/html",htmlHandler)
+	http.HandleFunc("/robots.txt",robotsTextHandler)
+	http.HandleFunc("/deny",denyHandler)
+	http.HandleFunc("/image",imageHandler)
+	http.HandleFunc("/image/png",pngHandler)
+	http.HandleFunc("/image/jpeg",jpegHandler)
+	http.HandleFunc("/image/webp",webpHandler)
+	http.HandleFunc("/image/svg",svgHandler)
+	http.HandleFunc("/forms/post",formsHandler)
+	http.HandleFunc("/xml",xmlHandler)
 
 }
 
@@ -338,7 +348,6 @@ func streamHandler(w http.ResponseWriter, r *http.Request){
 		w.Write(jsonResp)
 		w.Write([]byte("\n"))
 	}
-	
 }
 
 func delayHandler(w http.ResponseWriter, r *http.Request){
@@ -360,5 +369,92 @@ func delayHandler(w http.ResponseWriter, r *http.Request){
 	jsonData := jsonMap{}
 	jsonData = getAllJSONdata(r,"args","data","files","forms","headers","origin","url")
 	w.Write(makeJSONresponse(jsonData))
-	
+}
+
+func htmlHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	templates.SampleTemplate.ExecuteTemplate(w,"sample",nil)
+}
+
+func robotsTextHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	w.Write([]byte("User-agent: *\nDisallow: /deny"))
+
+}
+
+func denyHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	w.Write([]byte(` 
+	  .-''''''-.
+        .' _      _ '.
+       /   O      O   \\
+      :                :
+      |                |
+      :       __       :
+        '.         	 .'
+          '-......-'
+     YOU SHOULDN'T BE HERE`))
+}
+
+func imageHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	http.Redirect(w,r,"https://httpbin.org/image",http.StatusTemporaryRedirect)
+}
+func pngHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	http.Redirect(w,r,"https://httpbin.org/image/png",http.StatusTemporaryRedirect)
+}
+
+func jpegHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	http.Redirect(w,r,"https://httpbin.org/image/jpeg",http.StatusTemporaryRedirect)
+}
+func webpHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	http.Redirect(w,r,"https://httpbin.org/image/webp",http.StatusTemporaryRedirect)
+}
+
+func svgHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	http.Redirect(w,r,"https://httpbin.org/image/svg",http.StatusTemporaryRedirect)
+}
+
+func formsHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	templates.FormsTemplate.ExecuteTemplate(w,"forms",nil)
+}
+func xmlHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	w.Header().Set("Content-Type","application/xml")
+	templates.XmlTemplate.ExecuteTemplate(w,"xml",nil)
 }
