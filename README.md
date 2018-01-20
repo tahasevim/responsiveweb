@@ -44,7 +44,7 @@ Given below endpoints's handlers should be implemented<br>
 - [ ] `/cache/:n`
 - [ ] `/bytes/:n`
 - [ ] `/stream-bytes/:n` 
-- [ ] `/links/:n` 
+- [x] `/links/:n` 
 - [x] `/image`
 - [x] `/image/png`
 - [x] `/image/jpeg`
