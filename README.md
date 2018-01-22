@@ -39,10 +39,10 @@ Given below endpoints's handlers should be implemented<br>
 - [x] `/html`
 - [x] `/robots.txt`
 - [x] `/deny`
-- [ ] `/cache` 
+- [x] `/cache` 
 - [ ] `/etag/:etag` 
-- [ ] `/cache/:n`
-- [ ] `/bytes/:n`
+- [x] `/cache/:n`
+- [x] `/bytes/:n`
 - [ ] `/stream-bytes/:n` 
 - [x] `/links/:n` 
 - [x] `/image`
