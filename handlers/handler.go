@@ -8,6 +8,8 @@ import(
 	"strings"
 	"encoding/json"
 	"time"
+	"fmt"
+	"math/rand"
 )
 //Registers handlers to the default server mux.
 func RegisterHandlers(){
@@ -41,6 +43,10 @@ func RegisterHandlers(){
 	http.HandleFunc("/html",htmlHandler)
 	http.HandleFunc("/robots.txt",robotsTextHandler)
 	http.HandleFunc("/deny",denyHandler)
+	http.HandleFunc("/cache",cacheHandler)
+	http.HandleFunc("/cache/",cacheControlHandler)
+	http.HandleFunc("/bytes/",bytesHandler)
+	http.HandleFunc("/links/",linkHandler)
 	http.HandleFunc("/image",imageHandler)
 	http.HandleFunc("/image/png",pngHandler)
 	http.HandleFunc("/image/jpeg",jpegHandler)
@@ -278,6 +284,8 @@ func cookieSetDelhandler(w http.ResponseWriter, r *http.Request){
 	}
 	http.Redirect(w,r,"/cookies",302)
 }
+
+//localhost
 func basicAuthHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
@@ -457,4 +465,87 @@ func xmlHandler(w http.ResponseWriter, r *http.Request){
 	}
 	w.Header().Set("Content-Type","application/xml")
 	templates.XmlTemplate.ExecuteTemplate(w,"xml",nil)
+}
+
+func linkHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	var n int
+	strArr := strings.Split(r.URL.String(),"/")
+	nparam,err := strconv.ParseInt(strArr[2],10,64)
+	switch{
+	case err != nil:
+		n = 10
+	case int(nparam)>200:
+		n = 200
+	case int(nparam)<=200:
+		n = int(nparam)
+	}
+	var html []string
+	html = append(html,"<html><head><title>Links</title></head><body>")
+	for i:=0;i<n;i++{
+		html = append(html,fmt.Sprintf(` <a href=/links/%d/%d> %d </a> `,n,i,i))
+	}
+	html = append(html,"</body></html>")
+	resp := strings.Join(html,"")
+	w.Write([]byte(resp))
+}
+
+//http date and uuid check
+func cacheHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	jsonData := getAllJSONdata(r,"url","args","headers","origin")
+	if r.Header.Get("If-Modified-Since" ) == "" && r.Header.Get("If-None-Match") == ""{
+		//uuid :=getAllJSONdata(r,"uuid")["uuid"]
+		w.Header().Set("Last-Modified","")
+		//w.Header().Set("ETag",strconv.Itoa([]byte(uuid.([]uint8))))
+		log.Println("xxxx")
+		w.Write(makeJSONresponse(jsonData))
+	}else{
+		w.WriteHeader(304)
+	}
+}
+//url check
+func cacheControlHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	strArr := strings.Split(r.URL.String(),"/")
+	nparam,err := strconv.ParseInt(strArr[2],10,64)
+	if err != nil {
+		nparam = 60
+	}
+	jsonData := getAllJSONdata(r,"url","args","headers","origin")
+	w.Header().Set("Cache-Control",fmt.Sprintf("public, max-age=%d",nparam))
+	w.Write(makeJSONresponse(jsonData))
+}
+
+func bytesHandler(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET"{
+		http.Error(w,"Method Not Allowed",405)
+		return	
+	}
+	var n int
+	var byteArr []byte
+	urlStrArr := strings.Split(r.URL.String(),"/")
+	nparam, err := strconv.ParseInt(urlStrArr[2],10,64)
+	switch{
+	case err != nil:
+		n = 1024
+	case int(nparam)>100*1024:
+		n = 100*1024
+	case int(nparam)<=100*1024:
+		n = int(nparam)
+	}
+	for i:=0;i<n;i++{
+		byteArr = append(byteArr,byte(rand.Int()))
+	}
+	w.Header().Set("Content-Type","application/octet-stream")
+	w.Write(byteArr)
 }
