@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"strconv"
+	"log"
 	"io/ioutil"
 	//"log"
 	"io"
@@ -13,27 +15,32 @@ import (
 )
 
 type jsonMap map[string]interface{}
-
 func makeJSONresponse(v interface {}) []byte {
-	jsonVal, _ :=json.MarshalIndent(v,"","  ")
+	jsonVal, err :=json.MarshalIndent(v,"","  ")
+	if err != nil {
+		return nil
+	}
 	jsonVal = append(jsonVal,byte('\n'))
 	return jsonVal
 }
 
-func initHeadMap(r * http.Request) jsonMap{
+func initHeadMap(r * http.Request,body []byte) jsonMap{
 	head := jsonMap{}
 	for k,v := range r.Header{
 		head[k] = v[0]
 	}
+	head["Host"] = r.URL.String()
+	if r.Method == "POST" || r.Method == "DELETE" || r.Method == "PUT"{
+		head["Content-Length"] = strconv.Itoa(len(body))
+	}
 	if r.ProtoMajor == 1{
 		head["Connection"] = "close"
 	}
-	head["Host"] = r.URL.String()
 	return head
 }
 
 func deleteJSONval(val []byte, keys ...string) []byte{
-	var x map[string]interface{}
+	x := make(map[string]interface{})
 	json.Unmarshal(val,&x)
 	h,_:= (x["headers"].(map[string]interface{}))
 	delete(h,"Host")
@@ -105,18 +112,56 @@ func delCooki(w http.ResponseWriter, r * http.Request){
 	}
 
 }
-func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
+func getMapForJSON(str string) map[string]interface{}{
+	var vals []string
+	resp := make(map[string]interface{})
+	vals = nil
+	for _,v:= range str{
+		switch v{
+		case ':':
+			vals = strings.Split(str,string(v))
+			break
+		case '=':
+			vals = strings.Split(str,string(v))
+			break
+		}
+	}
+	if vals == nil {
+		return nil
+	}
+	for i:=0;i<len(vals)-1;i+=2{
+		log.Println(vals[i])
+		log.Println(vals[i+1])
+		vals[i] = strings.TrimLeft(vals[i],"{")
+		vals[i+1] = strings.TrimRight(vals[i+1],"}")
+		resp[vals[i]] = vals[i+1]
+	}
+	//log.Println(vals)
+	//log.Println(resp)
+	return resp
+}
+func getAllJSONdata(r *http.Request, keys ...string) jsonMap{
 	jsonData := jsonMap{}
+	var body []byte
+	if r.Body == nil{
+		body = []byte("")
+	}else{
+		body,_ = ioutil.ReadAll(r.Body)
+		r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	}
+	
+	//body :="repair"
 	for _, key := range keys{
 		switch key {
 		case "headers":
-			jsonData["headers"] = initHeadMap(r)
+			jsonData["headers"] = initHeadMap(r,body)
 		case "origin":
 			jsonData["origin"] = r.Header.Get("X-Forwarded-For")
 		case "url":
 			jsonData["url"] = r.Host+r.URL.String()
 		case "json":
-			jsonData["json"] = "" //if data can be encoded json,then encode it as json.
+			js := getMapForJSON(string(body))
+			jsonData["json"] = strings.TrimRight(string(makeJSONresponse(js)),"\n")
 		case "method":
 			jsonData["method"] = r.Method
 		case "args":
@@ -124,20 +169,19 @@ func getAllJSONdata(r * http.Request, keys ...string) jsonMap{
 		case "user-agent":
 			jsonData["user-agent"] = r.Header.Get("user-agent")
 		case "uuid":
-			jsonData["uuid"], _ = exec.Command("uuidgen").Output()//search for better solution
+			jsonData["uuid"], _ = exec.Command("uuidgen").Output()
 		case "form":
 			jsonData["form"] = initFormMap(r)
 		case "files":
 			jsonData["files"] = initFilemap(r)
 		case "data":
-			body,_ := ioutil.ReadAll(r.Body)
-			jsonData["data"] = body //if data can be encoded json,then encode it as json.
+			jsonData["data"] = string(body) //if data can be encoded json,then encode it as json.
 		case "brotli":
-			jsonData["brotli"] = true
+			jsonData["brotli"] = true//search
 		case "deflated":
-			jsonData["deflated"] = true
+			jsonData["deflated"] = true//search
 		case "gzipped":
-			jsonData["gzipped"] = true
+			jsonData["gzipped"] = true//search
 		case "authenticated":
 			jsonData["authenticated"] = true
 		case "user":

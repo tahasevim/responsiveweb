@@ -147,7 +147,7 @@ func patchHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func anythingHandler(w http.ResponseWriter, r *http.Request){
-	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url")
+	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url","method")
 	w.Write(makeJSONresponse(jsonData))
 }
 
