@@ -209,6 +209,7 @@ func responseHeaderHandler(w http.ResponseWriter, r *http.Request){
 			jsonData[key] = value
 		}
 	}
+	jsonData["Content-Type"] = "application/json"
 	w.Write(makeJSONresponse(jsonData))	
 }
 
@@ -243,10 +244,6 @@ func redirectToHandler(w http.ResponseWriter, r *http.Request){
 	}
 	url := r.URL.Query().Get("url")
 	statstr, _ := strconv.ParseInt(r.URL.Query().Get("status_code"),10,64)
-	/*if err != nil {
-		w.Write([]byte("Invalid status code"))
-		return
-	}*/
 	if statstr == 0{
 		stat = 302
 	}else{
@@ -264,7 +261,7 @@ func cookieHandler(w http.ResponseWriter, r *http.Request){
 	for _,cookie := range r.Cookies(){
 		cookieMap[cookie.Name] = cookie.Value
 	}
-	jsonData["Cookies"] = cookieMap
+	jsonData["cookies"] = cookieMap
 	w.Write(makeJSONresponse(jsonData))
 }
 func cookieSetDelhandler(w http.ResponseWriter, r *http.Request){

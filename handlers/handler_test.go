@@ -28,7 +28,7 @@ func TestIpHandler(t *testing.T){
 	
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 }
 func TestHeadersHandler(t *testing.T){
@@ -51,7 +51,7 @@ func TestHeadersHandler(t *testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -82,7 +82,7 @@ func TestGetHandler(t *testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -134,7 +134,7 @@ func TestUseragentHandler(t *testing.T){
 
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -165,7 +165,7 @@ func TestPostHandler(t *testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin","json")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -201,7 +201,7 @@ func TestDeleteHandler(t *testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin","json")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -232,7 +232,7 @@ func TestPutHandler(t *testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin","json")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -293,7 +293,7 @@ func TestEncodingUtfHandler(t *testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -321,7 +321,7 @@ func  TestGzipHandler( t* testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -350,7 +350,7 @@ func  TestGzipHandler( t* testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -378,7 +378,7 @@ func  TestGzipHandler( t* testing.T){
 	expectedResult = deleteJSONval(expectedResult,"url","origin")
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
 	}
 
 	//Body check.Since body has a header key we don't have to check headers separately
@@ -402,6 +402,190 @@ func TestStatusHandler( t *testing.T){
 	handler.ServeHTTP(resprec,testReq)
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
-		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resprec.Code, resp.Status)
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
+	}
+}
+func TestResponseHeadersHandler(t *testing.T){
+	req, err := http.NewRequest("GET","http://httpbin.org/response-headers",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.URL.Query().Add("testKey","testValue")	
+	resp,_ := http.DefaultClient.Do(req)
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)
+
+	testReq, err := http.NewRequest("GET","/response-headers",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	testReq.URL.Query().Add("testKey","testValue")	
+	resprec := httptest.NewRecorder()
+	handler := http.HandlerFunc(responseHeaderHandler)
+	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
+	
+	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
+	expectedResult = deleteJSONval(expectedResult,"url","origin")
+	
+	//Status Check	
+	if resprec.Code != resp.StatusCode{
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.StatusCode,resprec.Code)
+	}
+
+	//Body check.Since body has a header key we don't have to check headers separately
+	if string(result) != string(expectedResult) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",string(expectedResult), string(result))
+	}
+}
+	
+func TestRedirectMultiHandler(t *testing.T){
+	req, err := http.NewRequest("GET","http://httpbin.org/redirect/10",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp,_ := http.DefaultClient.Do(req)
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)
+
+	testReq, err := http.NewRequest("GET","/redirect/10",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resprec := httptest.NewRecorder()
+	handler := http.HandlerFunc(redirectMultiHandler)
+	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
+	
+	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
+	expectedResult = deleteJSONval(expectedResult,"url","origin")
+	
+	//Status Check	
+	if resprec.Code != resp.StatusCode{
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.Status,resprec.Code)
+	}
+
+	//Body check.Since body has a header key we don't have to check headers separately
+	if string(result) != string(expectedResult) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",string(expectedResult), string(result))
+	}
+}
+
+/*func TestRedirectToHandler(t *testing.T){
+	req, err := http.NewRequest("GET","http://httpbin.org/redirect-to",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.URL.Query().Add("url","www.go")
+	resp,_ := http.DefaultClient.Do(req)
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)
+
+	testReq, err := http.NewRequest("GET","/redirect-to",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	testReq.URL.Query().Add("url","www.google.com")
+	resprec := httptest.NewRecorder()
+	handler := http.HandlerFunc(redirectToHandler)
+	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
+	
+	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
+	expectedResult = deleteJSONval(expectedResult,"url","origin")
+	
+	//Status Check	
+	if resprec.Code != resp.StatusCode{
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.Status,resprec.Code)
+	}
+
+	//Body check.Since body has a header key we don't have to check headers separately
+	if string(result) != string(expectedResult) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",string(expectedResult), string(result))
+	}
+}*/
+func TestCookiesHandler(t *testing.T){
+	req, err := http.NewRequest("GET","http://httpbin.org/cookies",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp,_ := http.DefaultClient.Do(req)
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)
+
+	testReq, err := http.NewRequest("GET","/cookies",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resprec := httptest.NewRecorder()
+	handler := http.HandlerFunc(cookieHandler)
+	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
+	
+	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
+	expectedResult = deleteJSONval(expectedResult,"url","origin")
+	
+	//Status Check	
+	if resprec.Code != resp.StatusCode{
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.Status,resprec.Code)
+	}
+
+	//Body check.Since body has a header key we don't have to check headers separately
+	if string(result) != string(expectedResult) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",string(expectedResult), string(result))
+	}
+}
+func TestCookiesSetDelHandler(t *testing.T){
+	//Set
+	req, err := http.NewRequest("GET","http://httpbin.org/cookies/set",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.URL.Query().Add("testKey","testValue")	
+	resp,_ := http.DefaultClient.Do(req)
+	expectedResult ,_:= ioutil.ReadAll(resp.Body)
+
+	testReq, err := http.NewRequest("GET","/cookies/set",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	testReq.URL.Query().Add("testKey","testValue")	
+	resprec := httptest.NewRecorder()
+	handler := http.HandlerFunc(cookieSetDelhandler)
+	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
+	
+	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
+	expectedResult = deleteJSONval(expectedResult,"url","origin")
+	
+	//Status Check	
+	if resprec.Code != resp.StatusCode{
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",resp.Status,resprec.Code)
+	}
+
+	//Body check.Since body has a header key we don't have to check headers separately
+	if string(result) != string(expectedResult) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",string(expectedResult), string(result))
+	}
+	//Del
+	reqDel, err := http.NewRequest("GET","http://httpbin.org/cookies/delete",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.URL.Query().Add("testKey","testValue")	
+	respDel,_ := http.DefaultClient.Do(reqDel)
+	expectedResultDel ,_:= ioutil.ReadAll(resp.Body)
+
+	testReqDel, err := http.NewRequest("GET","/cookies/delete",nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	testReq.URL.Query().Add("testKey","testValue")	
+	resprecDel := httptest.NewRecorder()
+	handlerDel := http.HandlerFunc(cookieSetDelhandler)
+	handlerDel.ServeHTTP(resprec,testReqDel)//host url will be ignored while comparing
+	
+	resultDel := deleteJSONval(resprecDel.Body.Bytes(),"url","origin")
+	expectedResultDel = deleteJSONval(expectedResultDel,"url","origin")
+	
+	//Status Check	
+	if resprecDel.Code != respDel.StatusCode{
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",respDel.Status,resprecDel.Code)
+	}
+
+	//Body check.Since body has a header key we don't have to check headers separately
+	if string(resultDel) != string(expectedResultDel) {
+		t.Errorf("Unexpected result occurred.\nExpected Result:%v\n Result:%v",string(expectedResultDel), string(resultDel))
 	}
 }

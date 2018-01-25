@@ -96,9 +96,9 @@ func setCooki(w http.ResponseWriter, r * http.Request) jsonMap{
 	for _,cookie := range r.Cookies(){
 		cookieMap[cookie.Name] = cookie.Value
 	}
-	cookieMap["k1"] = "v1"
-	cookieMap["k2"] = "v2"
-	jsonData["Cookies"] = cookieMap
+	//cookieMap["k1"] = "v1"
+	//cookieMap["k2"] = "v2"
+	jsonData["cookies"] = cookieMap
 	return jsonData
 }
 func delCooki(w http.ResponseWriter, r * http.Request){
