@@ -43,6 +43,7 @@ var(
 		<li><a href = "/delay/">/delay/:n</a> Delays responding for min(n, 10) seconds.</li>
 		<li><a href = "/html">/html</a> Renders an HTML Page.</li>
 		<li><a href = "/robots.txt">/robots.txt</a> Returns some robots.txt rules.</li>
+		<li><a href = "/deny">/deny</a> Denied by robots.txt file.</li>
 		<li><a href = "/cache">/cache</a> Returns 200 unless an If-Modified-Since or If-None-Match header is provided, when it returns a 304.</li>
 		<li><a href = "/cache/">/cache/:n</a> Sets a Cache-Control header for n seconds.</li>
 		<li><a href = "/bytes/">/bytes/:n</a> Generates n random bytes of binary data.</li>
