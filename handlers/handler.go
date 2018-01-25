@@ -219,7 +219,6 @@ func redirectMultiHandler(w http.ResponseWriter, r *http.Request){
 		return	
 	}
 	ntime, err := strconv.ParseInt(r.URL.Path[len("/redirect/"):],10,64)
-	log.Println(ntime)
 	if int(ntime)<0{
 		w.Write([]byte("Invalid n"))
 		return
@@ -372,7 +371,7 @@ func delayHandler(w http.ResponseWriter, r *http.Request){
 	}
 	time.Sleep(time.Second * time.Duration(n))
 	jsonData := jsonMap{}
-	jsonData = getAllJSONdata(r,"args","data","files","forms","headers","origin","url")
+	jsonData = getAllJSONdata(r,"args","data","files","form","headers","origin","url")
 	w.Write(makeJSONresponse(jsonData))
 }
 
@@ -415,14 +414,14 @@ func imageHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w,"Method Not Allowed",405)
 		return	
 	}
-	http.Redirect(w,r,"https://httpbin.org/image",http.StatusTemporaryRedirect)
+	http.Redirect(w,r,"https://httpbin.org/image",http.StatusOK)
 }
 func pngHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
 	}
-	http.Redirect(w,r,"https://httpbin.org/image/png",http.StatusTemporaryRedirect)
+	http.Redirect(w,r,"https://httpbin.org/image/png",http.StatusOK)
 }
 
 func jpegHandler(w http.ResponseWriter, r *http.Request){
@@ -430,14 +429,14 @@ func jpegHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w,"Method Not Allowed",405)
 		return	
 	}
-	http.Redirect(w,r,"https://httpbin.org/image/jpeg",http.StatusTemporaryRedirect)
+	http.Redirect(w,r,"https://httpbin.org/image/jpeg",http.StatusOK)
 }
 func webpHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
 	}
-	http.Redirect(w,r,"https://httpbin.org/image/webp",http.StatusTemporaryRedirect)
+	http.Redirect(w,r,"https://httpbin.org/image/webp",http.StatusOK)
 }
 
 func svgHandler(w http.ResponseWriter, r *http.Request){
@@ -445,7 +444,7 @@ func svgHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w,"Method Not Allowed",405)
 		return	
 	}
-	http.Redirect(w,r,"https://httpbin.org/image/svg",http.StatusTemporaryRedirect)
+	http.Redirect(w,r,"https://httpbin.org/image/svg",http.StatusOK)
 }
 
 func formsHandler(w http.ResponseWriter, r *http.Request){
@@ -501,7 +500,6 @@ func cacheHandler(w http.ResponseWriter, r *http.Request){
 		//uuid :=getAllJSONdata(r,"uuid")["uuid"]
 		w.Header().Set("Last-Modified","")
 		//w.Header().Set("ETag",strconv.Itoa([]byte(uuid.([]uint8))))
-		log.Println("xxxx")
 		w.Write(makeJSONresponse(jsonData))
 	}else{
 		w.WriteHeader(304)
