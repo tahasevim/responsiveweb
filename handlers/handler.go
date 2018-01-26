@@ -18,11 +18,11 @@ import(
 //GetHandlers adds handlers to the a map and returns it.
 func GetHandlers()map[string]func(http.ResponseWriter,*http.Request){
 	handlerList := make(map[string]func(http.ResponseWriter,*http.Request))
-	handlerList["/"] = indexHandler
-	handlerList["/ip"] = ipHandler
-	handlerList["/headers"] = headersHandler
-	handlerList["/get"] = getHandler
-	handlerList["/user-agent"] = useragentHandler
+	handlerList["/"] = IndexHandler
+	handlerList["/ip"] = IpHandler
+	handlerList["/headers"] = HeadersHandler
+	handlerList["/get"] = GetHandler
+	handlerList["/user-agent"] = UseragentHandler
 	handlerList["/uuid"] = uuidHandler
 	handlerList["/post"] = postHandler
 	handlerList["/delete"] = deleteHandler
@@ -62,8 +62,8 @@ func GetHandlers()map[string]func(http.ResponseWriter,*http.Request){
 	return handlerList
 }
 
-//ipHandler handles a GET request and sends a response in JSON format that contains IP address of client which made request.
-func ipHandler(w http.ResponseWriter, r *http.Request){
+//IpHandler handles a GET request and sends a response in JSON format that contains IP address of client which made request.
+func IpHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -72,16 +72,16 @@ func ipHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//indexHandler handles a GET request and sends a HTML page that contains links of endpoints.
-func indexHandler(w http.ResponseWriter, r *http.Request){
+//IndexHandler handles a GET request and sends a HTML page that contains links of endpoints.
+func IndexHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET" {
 		http.Error(w,"Method Not Allowed",405)
 		return
 	}
 	templates.IndexTemplate.ExecuteTemplate(w, "index", nil)
 }
-//headersHandler handles a GET request and sends a response in JSON format that contains header of the coming request.
-func headersHandler(w http.ResponseWriter,r *http.Request){
+//HeadersHandler handles a GET request and sends a response in JSON format that contains header of the coming request.
+func HeadersHandler(w http.ResponseWriter,r *http.Request){
 	if r.Method != "GET" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -89,8 +89,8 @@ func headersHandler(w http.ResponseWriter,r *http.Request){
 	jsonData := getAllJSONdata(r,"headers")	
 	w.Write(makeJSONresponse(jsonData))
 }
-//getHandler handles a GET request and sends a response in JSON format that contains args,IP,headers,url of the coming request.
-func getHandler(w http.ResponseWriter, r *http.Request){
+//GetHandler handles a GET request and sends a response in JSON format that contains args,IP,headers,url of the coming request.
+func GetHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -99,8 +99,8 @@ func getHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//useragentHandler handles a GET request and sends a response in JSON format that contains user-agent of the coming request.
-func useragentHandler(w http.ResponseWriter, r *http.Request){
+//UseragentHandler handles a GET request and sends a response in JSON format that contains user-agent of the coming request.
+func UseragentHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET" {
 		http.Error(w,"Method Not Allowed",405)
 		return
