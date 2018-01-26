@@ -4,7 +4,7 @@
 Basic HTTP server written in Go.<br>
 Inspired from https://httpbin.org/.<br>
 Main aims of the responsiveweb project are:<br>
-  - Learning crucial features and nfrastructures of Go.<br>
+  - Learning crucial features and infrastructures of Go.<br>
   - Learning basics of the HTTP applications and relations between each.<br>
 Clients can make any request to this HTTP server in order to test their requests.
 ## To-Do List
