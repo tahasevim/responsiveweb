@@ -1,6 +1,6 @@
 
 # responsiveweb [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/tahasevim/responsiveweb)[![GoDoc](https://godoc.org/github.com/tahasevim/responsiveweb?status.svg)](https://godoc.org/github.com/tahasevim/responsiveweb)[![Coverage](https://img.shields.io/badge/coverage-85%25-orange.svg)](https://github.com/tahasevim/responsiveweb/tree/master/handlers)
-[![gopher](https://ibb.co/gL87Yb)]
+![gopher](https://ibb.co/gL87Yb)
 Basic HTTP server written in Go.<br>
 Inspired from https://httpbin.org/.<br>
 Main aims of the responsiveweb project are:<br>
