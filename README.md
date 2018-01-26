@@ -2,11 +2,11 @@
 # responsiveweb [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/tahasevim/responsiveweb)[![GoDoc](https://godoc.org/github.com/tahasevim/responsiveweb?status.svg)](https://godoc.org/github.com/tahasevim/responsiveweb)[![Coverage](https://img.shields.io/badge/coverage-85%25-orange.svg)](https://github.com/tahasevim/responsiveweb/tree/master/handlers)
 ![Alt text](https://image.ibb.co/k3oueG/gopherr.png)<br>
 Basic HTTP server written in Go.<br>
+Clients can make any request to this HTTP server in order to test their requests.<br>
 Inspired from https://httpbin.org/.<br>
 Main aims of the responsiveweb project are:<br>
   - Learning crucial features and infrastructures of Go.<br>
   - Learning basics of the HTTP applications and relations between each.<br>
-Clients can make any request to this HTTP server in order to test their requests.
 ## To-Do List
 Given below endpoints's handlers should be implemented<br>
 - [x] `/`
