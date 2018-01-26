@@ -12,7 +12,10 @@ import(
 	"io/ioutil"
 )
 
+//server is the test flag.
 var server string
+
+//init function is the constructor of package for flag.
 func init(){
 	flag.StringVar(&server,"server","localhost:8080","server flag")	
 }
