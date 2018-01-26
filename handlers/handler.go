@@ -23,42 +23,42 @@ func GetHandlers()map[string]func(http.ResponseWriter,*http.Request){
 	handlerList["/headers"] = HeadersHandler
 	handlerList["/get"] = GetHandler
 	handlerList["/user-agent"] = UseragentHandler
-	handlerList["/uuid"] = uuidHandler
-	handlerList["/post"] = postHandler
-	handlerList["/delete"] = deleteHandler
-	handlerList["/put"] = putHandler
-	handlerList["/anything"] = anythingHandler
-	handlerList["/anything/"] = anythingHandler
-	handlerList["/encoding/utf8"] = utf8Handler
-	handlerList["/gzip"] = gzipHandler
-	handlerList["/deflate"] = deflateHandler
-	handlerList["/brotli"] = brotliHandler
-	handlerList["/status/"] = statusHandler
-	handlerList["/response-headers"] = responseHeaderHandler
-	handlerList["/redirect/"] = redirectMultiHandler
-	handlerList["/redirect-to"] = redirectToHandler
+	handlerList["/uuid"] = UuidHandler
+	handlerList["/post"] = PostHandler
+	handlerList["/delete"] = DeleteHandler
+	handlerList["/put"] = PutHandler
+	handlerList["/anything"] = AnythingHandler
+	handlerList["/anything/"] = AnythingHandler
+	handlerList["/encoding/utf8"] = Utf8Handler
+	handlerList["/gzip"] = GzipHandler
+	handlerList["/deflate"] = DeflateHandler
+	handlerList["/brotli"] = BrotliHandler
+	handlerList["/status/"] = StatusHandler
+	handlerList["/response-headers"] = ResponseHeaderHandler
+	handlerList["/redirect/"] = RedirectMultiHandler
+	handlerList["/redirect-to"] = RedirectToHandler
 	//handlerList["/relative-redirect"] = relativeRedHandler
 	//handlerList["/absolute-redirect"] = absoluteRedHandler
-	handlerList["/cookies"] = cookieHandler
-	handlerList["/cookies/"] = cookieSetDelhandler
-	handlerList["/basic-auth"] = basicAuthHandler
-	handlerList["/hidden-basic-auth"] = hiddenBasicAuthHandler
-	handlerList["/stream/"] = streamHandler
-	handlerList["/delay/"] = delayHandler
-	handlerList["/html"] = htmlHandler
-	handlerList["/robots.txt"] = robotsTextHandler
-	handlerList["/deny"] = denyHandler
-	handlerList["/cache"] = cacheHandler
-	handlerList["/cache/"] = cacheControlHandler
-	handlerList["/bytes/"] = bytesHandler
-	handlerList["/links/"] = linkHandler
-	handlerList["/image"] = imageHandler
-	handlerList["/image/png"] = pngHandler
-	handlerList["/image/jpeg"] = jpegHandler
-	handlerList["/image/webp"] = webpHandler
-	handlerList["/image/svg"] = svgHandler
-	handlerList["/forms/post"] = formsHandler
-	handlerList["/xml"] = xmlHandler
+	handlerList["/cookies"] = CookieHandler
+	handlerList["/cookies/"] = CookieSetDelHandler
+	handlerList["/basic-auth"] = BasicAuthHandler
+	handlerList["/hidden-basic-auth"] = HiddenBasicAuthHandler
+	handlerList["/stream/"] = StreamHandler
+	handlerList["/delay/"] = DelayHandler
+	handlerList["/html"] = HtmlHandler
+	handlerList["/robots.txt"] = RobotsTextHandler
+	handlerList["/deny"] = DenyHandler
+	handlerList["/cache"] = CacheHandler
+	handlerList["/cache/"] = CacheControlHandler
+	handlerList["/bytes/"] = BytesHandler
+	handlerList["/links/"] = LinkHandler
+	handlerList["/image"] = ImageHandler
+	handlerList["/image/png"] = PngHandler
+	handlerList["/image/jpeg"] = JpegHandler
+	handlerList["/image/webp"] = WebpHandler
+	handlerList["/image/svg"] = SvgHandler
+	handlerList["/forms/post"] = FormsHandler
+	handlerList["/xml"] = XmlHandler
 	return handlerList
 }
 
@@ -109,9 +109,9 @@ func UseragentHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//uuidHandler handles a GET request and sends a response in JSON format that contains uuid (Universally unique identifier).
+//UuidHandler handles a GET request and sends a response in JSON format that contains uuid (Universally unique identifier).
 //uuid is obtained by operating system's "uuidgen" tool.
-func uuidHandler(w http.ResponseWriter, r *http.Request){
+func UuidHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -120,8 +120,8 @@ func uuidHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//postHandler handles a POST request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
-func postHandler(w http.ResponseWriter, r *http.Request){
+//PostHandler handles a POST request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
+func PostHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "POST" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -130,8 +130,8 @@ func postHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))	
 }
 
-//deleteHandler handles a DELETE request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
-func deleteHandler(w http.ResponseWriter, r *http.Request){
+//DeleteHandler handles a DELETE request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
+func DeleteHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "DELETE" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -140,8 +140,8 @@ func deleteHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))	
 }
 
-//putHandler handles a PUT request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
-func putHandler(w http.ResponseWriter, r *http.Request){
+//PutHandler handles a PUT request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
+func PutHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "PUT" {
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -160,14 +160,14 @@ func patchHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))	
 }
 
-//anythingHandler can handle any type of request and sends a response in JSON format that contains args,data,files,form,headers,IP,url,method of the coming request.
-func anythingHandler(w http.ResponseWriter, r *http.Request){
+//AnythingHandler can handle any type of request and sends a response in JSON format that contains args,data,files,form,headers,IP,url,method of the coming request.
+func AnythingHandler(w http.ResponseWriter, r *http.Request){
 	jsonData := getAllJSONdata(r ,"args","data","files","form","headers","json","origin","url","method")
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//utf8Handler handles a GET request and sends a UTF8 encoded template that contains a lot of different UTF8 encoded characters.
-func utf8Handler(w http.ResponseWriter, r *http.Request){
+//Utf8Handler handles a GET request and sends a UTF8 encoded template that contains a lot of different UTF8 encoded characters.
+func Utf8Handler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -175,8 +175,8 @@ func utf8Handler(w http.ResponseWriter, r *http.Request){
 	templates.Utf8Template.ExecuteTemplate(w,"utf8",nil)
 }
 
-//gzipHandler handles a GET request and sends a response in JSON format that contains gzipped,headers,method,IP of the coming request.
-func gzipHandler(w http.ResponseWriter, r *http.Request){
+//GzipHandler handles a GET request and sends a response in JSON format that contains gzipped,headers,method,IP of the coming request.
+func GzipHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -186,8 +186,8 @@ func gzipHandler(w http.ResponseWriter, r *http.Request){
 	
 }
 
-//brotliHandler handles a GET request and sends a response in JSON format that contains gzipped,headers,method,IP of the coming request.
-func brotliHandler(w http.ResponseWriter, r *http.Request){
+//BrotliHandler handles a GET request and sends a response in JSON format that contains gzipped,headers,method,IP of the coming request.
+func BrotliHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -196,8 +196,8 @@ func brotliHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))	
 }
 
-//deflateHandler handles a GET request and sends a response in JSON format that contains gzipped,headers,method,IP of the coming request.
-func deflateHandler(w http.ResponseWriter, r *http.Request){
+//DeflateHandler handles a GET request and sends a response in JSON format that contains gzipped,headers,method,IP of the coming request.
+func DeflateHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -206,8 +206,8 @@ func deflateHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))	
 }
 
-//statusHandler can handle any type of request and redirects the coming request to the that status's url.
-func statusHandler(w http.ResponseWriter, r *http.Request){
+//StatusHandler can handle any type of request and redirects the coming request to the that status's url.
+func StatusHandler(w http.ResponseWriter, r *http.Request){
 	stat,_ := strconv.ParseInt(r.URL.Path[len("/status/"):],10,64)
 	if int(stat)==0{
 		w.WriteHeader(418)
@@ -216,9 +216,9 @@ func statusHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"/status/"+string(stat),int(stat))
 }
 
-//responseHeaderHandler handles a GET or POST request and sends a response in JSON format.
+//ResponseHeaderHandler handles a GET or POST request and sends a response in JSON format.
 //It prepares a JSON response from url of the coming request.
-func responseHeaderHandler(w http.ResponseWriter, r *http.Request){
+func ResponseHeaderHandler(w http.ResponseWriter, r *http.Request){
 	if !(r.Method == "GET" || r.Method == "POST"){
 		http.Error(w,"Method Not Allowed",405)
 		return
@@ -235,8 +235,8 @@ func responseHeaderHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))	
 }
 
-//redirectMultiHandler handles a GET request and redirects the coming request n times.
-func redirectMultiHandler(w http.ResponseWriter, r *http.Request){
+//RedirectMultiHandler handles a GET request and redirects the coming request n times.
+func RedirectMultiHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -258,8 +258,8 @@ func redirectMultiHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-//redirectToHandler handles a GET request and redirects the coming request to the given url parameter.
-func redirectToHandler(w http.ResponseWriter, r *http.Request){
+//RedirectToHandler handles a GET request and redirects the coming request to the given url parameter.
+func RedirectToHandler(w http.ResponseWriter, r *http.Request){
 	var stat int
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
@@ -275,8 +275,8 @@ func redirectToHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,url,stat)
 }
 
-//cookieHandler handles a GET request and sends a response in JSON format that contains cookies.
-func cookieHandler(w http.ResponseWriter, r *http.Request){
+//CookieHandler handles a GET request and sends a response in JSON format that contains cookies.
+func CookieHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -290,9 +290,9 @@ func cookieHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//cookieSetDelhandler handles a GET request and sends a response in JSON format that contains cookies.
+//CookieSetDelHandler handles a GET request and sends a response in JSON format that contains cookies.
 //It sets or deletes cookies according to given url (/set or /delete).
-func cookieSetDelhandler(w http.ResponseWriter, r *http.Request){
+func CookieSetDelHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -310,9 +310,9 @@ func cookieSetDelhandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"/cookies",302)
 }
 
-//basicAuthHandler handles a GET request and sends a response in JSON format.
+//BasicAuthHandler handles a GET request and sends a response in JSON format.
 //It recieves password and username from client and checks that it is valid or not.
-func basicAuthHandler(w http.ResponseWriter, r *http.Request){
+func BasicAuthHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -340,9 +340,9 @@ func basicAuthHandler(w http.ResponseWriter, r *http.Request){
 	log.Println("User logged in:",user)
 	
 }
-//hiddenBasicAuthHandler handles a GET request and sends a response in JSON format.
+//HiddenBasicAuthHandler handles a GET request and sends a response in JSON format.
 //It recieves password and username from client and checks that it is valid or not.
-func hiddenBasicAuthHandler(w http.ResponseWriter, r *http.Request){
+func HiddenBasicAuthHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -362,9 +362,9 @@ func hiddenBasicAuthHandler(w http.ResponseWriter, r *http.Request){
 	http.Error(w,"Not Found",http.StatusNotFound)		
 }
 
-//streamHandler handles a GET request and sends a response in JSON format that contains url,args,headers,IP of the coming request.
+//StreamHandler handles a GET request and sends a response in JSON format that contains url,args,headers,IP of the coming request.
 //It sends response n times.
-func streamHandler(w http.ResponseWriter, r *http.Request){
+func StreamHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -388,9 +388,9 @@ func streamHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-//delayHandler handles a GET request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
+//DelayHandler handles a GET request and sends a response in JSON format that contains args,data,files,form,headers,IP,url of the coming request.
 //It sends response with a delayed time according to given n.
-func delayHandler(w http.ResponseWriter, r *http.Request){
+func DelayHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -411,8 +411,8 @@ func delayHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//htmlHandler handles a GET request and sends a sample HTML template.
-func htmlHandler(w http.ResponseWriter, r *http.Request){
+//HtmlHandler handles a GET request and sends a sample HTML template.
+func HtmlHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -420,8 +420,8 @@ func htmlHandler(w http.ResponseWriter, r *http.Request){
 	templates.SampleTemplate.ExecuteTemplate(w,"sample",nil)
 }
 
-//robotsTextHandler handles a GET request and sends a message that contains some robots.txt rules.
-func robotsTextHandler(w http.ResponseWriter, r *http.Request){
+//RobotsTextHandler handles a GET request and sends a message that contains some robots.txt rules.
+func RobotsTextHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -430,8 +430,8 @@ func robotsTextHandler(w http.ResponseWriter, r *http.Request){
 
 }
 
-//denyHandler handles a GET request and sends a message which recites that denied by robots.txt rules.
-func denyHandler(w http.ResponseWriter, r *http.Request){
+//DenyHandler handles a GET request and sends a message which recites that denied by robots.txt rules.
+func DenyHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -448,8 +448,8 @@ func denyHandler(w http.ResponseWriter, r *http.Request){
      YOU SHOULDN'T BE HERE`))
 }
 
-//imageHandler handles a GET request and redirects it to "https://httpbin.org/image". 
-func imageHandler(w http.ResponseWriter, r *http.Request){
+//ImageHandler handles a GET request and redirects it to "https://httpbin.org/image". 
+func ImageHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -457,8 +457,8 @@ func imageHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"https://httpbin.org/image",http.StatusOK)
 }
 
-//pngHandler handles a GET request and redirects it to "https://httpbin.org/image/png". 
-func pngHandler(w http.ResponseWriter, r *http.Request){
+//PngHandler handles a GET request and redirects it to "https://httpbin.org/image/png". 
+func PngHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -466,8 +466,8 @@ func pngHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"https://httpbin.org/image/png",http.StatusOK)
 }
 
-//jpegHandler handles a GET request and redirects it to "https://httpbin.org/image/jpeg". 
-func jpegHandler(w http.ResponseWriter, r *http.Request){
+//JpegHandler handles a GET request and redirects it to "https://httpbin.org/image/jpeg". 
+func JpegHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -475,8 +475,8 @@ func jpegHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"https://httpbin.org/image/jpeg",http.StatusOK)
 }
 
-//webpHandler handles a GET request and redirects it to "https://httpbin.org/image/webp". 
-func webpHandler(w http.ResponseWriter, r *http.Request){
+//WebpHandler handles a GET request and redirects it to "https://httpbin.org/image/webp". 
+func WebpHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -484,8 +484,8 @@ func webpHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"https://httpbin.org/image/webp",http.StatusOK)
 }
 
-//svgHandler handles a GET request and redirects it to "https://httpbin.org/image/svg". 
-func svgHandler(w http.ResponseWriter, r *http.Request){
+//SvgHandler handles a GET request and redirects it to "https://httpbin.org/image/svg". 
+func SvgHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -493,8 +493,8 @@ func svgHandler(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"https://httpbin.org/image/svg",http.StatusOK)
 }
 
-//formsHandler handles a GET request and a sends sample form template.
-func formsHandler(w http.ResponseWriter, r *http.Request){
+//FormsHandler handles a GET request and a sends sample form template.
+func FormsHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -502,8 +502,8 @@ func formsHandler(w http.ResponseWriter, r *http.Request){
 	templates.FormsTemplate.ExecuteTemplate(w,"forms",nil)
 }
 
-//xmlHandler handles a GET request and sends sample XML template.
-func xmlHandler(w http.ResponseWriter, r *http.Request){
+//XmlHandler handles a GET request and sends sample XML template.
+func XmlHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -512,8 +512,8 @@ func xmlHandler(w http.ResponseWriter, r *http.Request){
 	templates.XmlTemplate.ExecuteTemplate(w,"xml",nil)
 }
 
-//linkHandler handles a GET request and sends n numbers link.
-func linkHandler(w http.ResponseWriter, r *http.Request){
+//LinkHandler handles a GET request and sends n numbers link.
+func LinkHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -539,9 +539,9 @@ func linkHandler(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte(resp))
 }
 
-//cacheHandler handles a GET request and sends a response in JSON format that contains url,args,header,IP of the coming request.
+//CacheHandler handles a GET request and sends a response in JSON format that contains url,args,header,IP of the coming request.
 //If "If-Modified-Since" or "If-None-Match" header is provided,it returns 304 status code.
-func cacheHandler(w http.ResponseWriter, r *http.Request){
+func CacheHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -558,9 +558,9 @@ func cacheHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-//cacheControlHandler handles a GET request and sends a response in JSON format that contains url,args,headers,IP of the coming request.
+//CacheControlHandler handles a GET request and sends a response in JSON format that contains url,args,headers,IP of the coming request.
 //It sets a Cache-Control header for n seconds.
-func cacheControlHandler(w http.ResponseWriter, r *http.Request){
+func CacheControlHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	
@@ -576,8 +576,8 @@ func cacheControlHandler(w http.ResponseWriter, r *http.Request){
 	w.Write(makeJSONresponse(jsonData))
 }
 
-//bytesHandler handles a GET request and sends a response that contains bytes which are generated n times randomly.
-func bytesHandler(w http.ResponseWriter, r *http.Request){
+//BytesHandler handles a GET request and sends a response that contains bytes which are generated n times randomly.
+func BytesHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method != "GET"{
 		http.Error(w,"Method Not Allowed",405)
 		return	

@@ -28,7 +28,7 @@ func TestIpHandler(t *testing.T){
 	}
 	resp,_ := http.DefaultClient.Do(req)
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(ipHandler)
+	handler := http.HandlerFunc(IpHandler)
 	handler.ServeHTTP(resprec,req)
 	
 	//Status Check	
@@ -50,7 +50,7 @@ func TestHeadersHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(headersHandler)
+	handler := http.HandlerFunc(HeadersHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -82,7 +82,7 @@ func TestGetHandler(t *testing.T){
 	}
 	testReq.URL.Query().Add("testKey","testValue")	
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(getHandler)
+	handler := http.HandlerFunc(GetHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -105,7 +105,7 @@ func TestIndexHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(indexHandler)
+	handler := http.HandlerFunc(IndexHandler)
 	handler.ServeHTTP(resprec,req)
 	if stat := resprec.Code;stat != http.StatusOK{
 		t.Errorf("Something has gone wrong! Error Code:%v",stat)
@@ -135,7 +135,7 @@ func TestUseragentHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(useragentHandler)
+	handler := http.HandlerFunc(UseragentHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin","user-agent")
@@ -168,7 +168,7 @@ func TestPostHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(postHandler)
+	handler := http.HandlerFunc(PostHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin","json")
@@ -205,7 +205,7 @@ func TestDeleteHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(deleteHandler)
+	handler := http.HandlerFunc(DeleteHandler)
 	handler.ServeHTTP(resprec,testReq)
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin","json")
@@ -237,7 +237,7 @@ func TestPutHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(putHandler)
+	handler := http.HandlerFunc(PutHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin","json")
@@ -269,7 +269,7 @@ func TestAnythingHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(anythingHandler)
+	handler := http.HandlerFunc(AnythingHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin","json")
@@ -300,7 +300,7 @@ func TestEncodingUtfHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(utf8Handler)
+	handler := http.HandlerFunc(Utf8Handler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -329,7 +329,7 @@ func  TestGzipHandler( t* testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(gzipHandler)
+	handler := http.HandlerFunc(GzipHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -414,7 +414,7 @@ func TestStatusHandler( t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(statusHandler)
+	handler := http.HandlerFunc(StatusHandler)
 	handler.ServeHTTP(resprec,testReq)
 	//Status Check	
 	if resprec.Code != resp.StatusCode{
@@ -437,7 +437,7 @@ func TestResponseHeadersHandler(t *testing.T){
 	}
 	testReq.URL.Query().Add("testKey","testValue")	
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(responseHeaderHandler)
+	handler := http.HandlerFunc(ResponseHeaderHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -468,7 +468,7 @@ func TestRedirectMultiHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(redirectMultiHandler)
+	handler := http.HandlerFunc(RedirectMultiHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -532,7 +532,7 @@ func TestCookiesHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(cookieHandler)
+	handler := http.HandlerFunc(CookieHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -565,7 +565,7 @@ func TestCookiesSetDelHandler(t *testing.T){
 	}
 	testReq.URL.Query().Add("testKey","testValue")	
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(cookieSetDelhandler)
+	handler := http.HandlerFunc(CookieSetDelHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -595,7 +595,7 @@ func TestCookiesSetDelHandler(t *testing.T){
 	}
 	testReq.URL.Query().Add("testKey","testValue")	
 	resprecDel := httptest.NewRecorder()
-	handlerDel := http.HandlerFunc(cookieSetDelhandler)
+	handlerDel := http.HandlerFunc(CookieSetDelHandler)
 	handlerDel.ServeHTTP(resprec,testReqDel)//host url will be ignored while comparing
 	
 	resultDel := deleteJSONval(resprecDel.Body.Bytes(),"url","origin")
@@ -626,7 +626,7 @@ func TestBasicAuthHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(basicAuthHandler)
+	handler := http.HandlerFunc(BasicAuthHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -656,7 +656,7 @@ func TestHiddenBasicAuthHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(hiddenBasicAuthHandler)
+	handler := http.HandlerFunc(HiddenBasicAuthHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -686,7 +686,7 @@ func TestStreamHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(streamHandler)
+	handler := http.HandlerFunc(StreamHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -716,7 +716,7 @@ func TestDelayHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(delayHandler)
+	handler := http.HandlerFunc(DelayHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -746,7 +746,7 @@ func TestHtmlHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(htmlHandler)
+	handler := http.HandlerFunc(HtmlHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -777,7 +777,7 @@ func TestRobotsTextHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(robotsTextHandler)
+	handler := http.HandlerFunc(RobotsTextHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -807,7 +807,7 @@ func TestDenyHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(denyHandler)
+	handler := http.HandlerFunc(DenyHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -837,7 +837,7 @@ func TestCacheHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(cacheHandler)
+	handler := http.HandlerFunc(CacheHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -867,7 +867,7 @@ func TestCacheControlHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(cacheControlHandler)
+	handler := http.HandlerFunc(CacheControlHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -896,7 +896,7 @@ func TestBytesHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(bytesHandler)
+	handler := http.HandlerFunc(BytesHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -925,7 +925,7 @@ func TestLinkHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(linkHandler)
+	handler := http.HandlerFunc(LinkHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -955,7 +955,7 @@ func TestImageHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(imageHandler)
+	handler := http.HandlerFunc(ImageHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -984,7 +984,7 @@ func TestImagePNGHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(pngHandler)
+	handler := http.HandlerFunc(PngHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -1013,7 +1013,7 @@ func TestImageJPEGHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(jpegHandler)
+	handler := http.HandlerFunc(JpegHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -1042,7 +1042,7 @@ func TestImageWEBPHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(webpHandler)
+	handler := http.HandlerFunc(WebpHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -1072,7 +1072,7 @@ func TestImageSVGHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(svgHandler)
+	handler := http.HandlerFunc(SvgHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -1101,7 +1101,7 @@ func TestFormsPostHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(formsHandler)
+	handler := http.HandlerFunc(FormsHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
@@ -1130,7 +1130,7 @@ func TestXMLHandler(t *testing.T){
 		t.Fatal(err)
 	}
 	resprec := httptest.NewRecorder()
-	handler := http.HandlerFunc(xmlHandler)
+	handler := http.HandlerFunc(XmlHandler)
 	handler.ServeHTTP(resprec,testReq)//host url will be ignored while comparing
 	
 	result := deleteJSONval(resprec.Body.Bytes(),"url","origin")
