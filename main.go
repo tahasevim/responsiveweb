@@ -1,4 +1,3 @@
-//Package main of the responsiveweb project.
 //responsiveweb project is inspired by Kenneth Reitz's https://httpbin.org project.
 //It is implemented with built-in HTTP library.
 //All handlers will be registered to the DefaultServeMux.
